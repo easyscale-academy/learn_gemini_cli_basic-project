@@ -1,0 +1,5 @@
+[env]
+# See claude code environment variables documents at https://code.claude.com/docs/en/settings
+
+[tools]
+gemini = "latest"

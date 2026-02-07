@@ -1,3 +1,8 @@
+# User Settings
+.gemini/gemini-messages.md
+.idea
+tmp
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]
