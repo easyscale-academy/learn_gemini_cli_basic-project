@@ -4,7 +4,14 @@
 [[rule]]
 toolName = ["write_file", "edit_file", "replace"]
 # filePattern uses Glob syntax: ** matches any number of directories
-filePattern = "tests/**"
+filePattern = [
+    ".gemini/settings.json",
+    ".gemini/commands/*.toml",
+    ".gemini/policies/*.toml",
+    ".gemini/skills/*/SKILL.md",
+    ".gemini/*.md",
+    "tests/**/*.py",
+]
 decision = "allow"
 priority = 100
 
