@@ -1,3 +1,11 @@
 {
-
+    "general": {
+    },
+    "ide": {
+        "enabled": false,
+        "hasSeenNudge": true
+    },
+    "model": {
+        "name": "gemini-3-flash-preview"
+    }
 }
