@@ -1,0 +1,2 @@
+description = "Tells a random joke by activating the 'tell-me-a-joke' skill."
+prompt = "Use 'tell-me-a-joke' agent skill to tell a random joke"
