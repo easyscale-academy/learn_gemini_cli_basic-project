@@ -1,0 +1,33 @@
+# See https://geminicli.com/docs/core/policy-engine/
+
+# 1. Allow file creation and modification in the tests directory (including subdirectories)
+[[rule]]
+toolName = ["write_file", "edit_file", "replace"]
+# filePattern uses Glob syntax: ** matches any number of directories
+filePattern = "tests/**"
+decision = "allow"
+priority = 100
+
+# 2. Allow running any .py file within the tests directory
+[[rule]]
+toolName = "run_shell_command"
+# commandRegex uses Regex syntax:
+# .* matches any character sequence (equivalent to ** in glob)
+# \\.py matches the literal .py extension
+commandRegex = "^(\\.venv/bin/python|python) .*tests/.*\\.py$"
+decision = "allow"
+priority = 100
+
+# 3. Explicitly deny file deletion for safety
+[[rule]]
+toolName = "delete_file"
+decision = "deny"
+priority = 200
+deny_message = "File deletion is disabled for safety reasons."
+
+# 4. Explicitly deny dangerous shell commands
+[[rule]]
+toolName = "run_shell_command"
+commandRegex = ".*rm -rf.*"
+decision = "deny"
+priority = 200
