@@ -22,13 +22,7 @@ Read the tutorial: [Gemini CLI Login Guide](https://github.com/easyscale-academy
 - [ ] **Logged in** - Saw "Logged in with Google" with your email and "Plan: Gemini Code Assist for individuals"
 - [ ] **AI responds** - Typed `who are you?` and received a self-introduction response from Gemini CLI
 
-## Submission & Verification
-
-When you're done, run `/teach-check` to verify your work against the checklist. Say "ship it" when complete to generate RESULT.md, then share the RESULT.md file GitHub link with your instructor.
-
 ## Grading Rubric
-
-> **For instructors and /teach-check assistant** — Students may skip this section.
 
 - **Authentication method:** Student logged in via "Login with Google" (not API Key or Vertex AI). Verify by checking the Terminal shows "Logged in with Google:" followed by their email address.
 - **Plan confirmation:** Terminal displays "Plan: Gemini Code Assist for individuals", confirming the free tier is active.
