@@ -17,3 +17,7 @@ Building on the installation from 02, authenticate Gemini CLI using Google OAuth
 ## 04-Read-Files
 
 Now that Gemini CLI is installed and authenticated, learn the most fundamental interaction skill: referencing files with `@`. Understand absolute vs. relative paths, use `@` + relative path to feed files into the AI, and practice with four exercises — reading, questioning, comparing files, and summarizing the tutorial itself.
+
+## 05-Read-URLs
+
+Building on file references from 04, learn to feed web URLs directly to Gemini CLI. Paste any public URL into your prompt and the AI fetches, reads, and answers questions about the page. Practice summarizing docs, asking targeted questions, and extracting specific details — turning Gemini into your research assistant.
