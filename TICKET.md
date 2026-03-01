@@ -1,4 +1,4 @@
-# Read Files with @ in Gemini CLI
+# Read Files with AT in Gemini CLI
 
 ## Objective
 
