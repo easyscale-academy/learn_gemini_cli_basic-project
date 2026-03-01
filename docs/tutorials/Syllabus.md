@@ -13,3 +13,7 @@ Install Google's Gemini CLI using mise instead of the official `npm install -g` 
 ## 03-Gemini-CLI-Login-Guide
 
 Building on the installation from 02, authenticate Gemini CLI using Google OAuth. Walk through the full login flow in GitHub Codespaces — folder trust, auth method selection, OAuth authorization, and verification. Learn what OAuth is and why it's more secure than passwords. By the end, typing `who are you?` gets a live AI response.
+
+## 04-Read-Files
+
+Now that Gemini CLI is installed and authenticated, learn the most fundamental interaction skill: referencing files with `@`. Understand absolute vs. relative paths, use `@` + relative path to feed files into the AI, and practice with four exercises — reading, questioning, comparing files, and summarizing the tutorial itself.
