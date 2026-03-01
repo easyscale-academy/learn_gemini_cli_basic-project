@@ -23,13 +23,7 @@ Read the tutorial: [Gemini CLI Basics: Show AI What You See with Screenshots](ht
 - [ ] **Exercise 2: Get help with an error** — Capture an error message screenshot and ask Gemini CLI to explain it and suggest a fix
 - [ ] **Verify the results** — Confirm that the AI correctly interpreted the screenshots and returned accurate descriptions
 
-## Submission & Verification
-
-When you're done, run `/teach-check` to verify your work against the checklist. Say "ship it" when complete to generate RESULT.md, then share the RESULT.md file GitHub link with your instructor.
-
 ## Grading Rubric
-
-> **For instructors and /teach-check assistant** — Students may skip this section.
 
 - **Workflow understanding:** Student can describe the four-step process: screenshot → upload → copy relative path → send to AI with `@`. They understand this uses the same `@` file reference syntax from Lesson 04.
 - **Screenshot shortcut:** Student knows their OS screenshot shortcut and can capture a selected area of the screen.
