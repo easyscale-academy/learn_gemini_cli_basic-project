@@ -25,3 +25,7 @@ Building on file references from 04, learn to feed web URLs directly to Gemini C
 ## 06-Read-Screenshots
 
 Complete your context-feeding toolkit by learning to share screenshots with Gemini CLI. Take a screenshot, upload it to your Codespace, copy the relative path, and reference it with `@`. Practice having the AI describe interfaces and interpret error messages — faster and more precise than text descriptions.
+
+## 07-Write-Files
+
+Now that you can feed context into Gemini CLI, learn to control its output. Use absolute paths to tell the AI exactly where to create or modify files, and request changelog documents that explain what changed and why. Practice creating a script and its documentation in one prompt, and establish a `docs/changes/` folder habit for tracking AI-driven modifications.
