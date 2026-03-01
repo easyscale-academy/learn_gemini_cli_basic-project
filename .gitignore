@@ -2,6 +2,8 @@
 .gemini/gemini-messages.md
 .idea
 tmp
+.claude/
+CLAUDE.md
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
