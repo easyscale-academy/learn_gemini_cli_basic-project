@@ -1,232 +1,244 @@
-# Installing Claude Code with mise: A Step-by-Step Guide to Efficient Tool Management
+# Installing Gemini CLI with mise: A Step-by-Step Guide to Efficient Tool Management
 
-## 📋 What You'll Learn
+> Learn how to install Google's Gemini CLI — a free, open-source AI coding agent — using mise for clean, version-managed tooling.
 
-- Why mise is the recommended way to install Claude Code
-- How to get Claude Code up and running through mise
-- How to verify that everything worked
+## Overview
 
-## 🎯 Why Does This Matter?
+In the previous lesson, you learned what a coding agent is and how it differs from a regular chatbot. Now it's time to get one running on your machine. In this lesson, you'll install Gemini CLI — Google's open-source command-line AI agent — using mise, the universal tool manager you already know.
 
-Claude Code is Anthropic's command-line AI coding assistant — it lives right in your Terminal and can help you write code, debug, and refactor. Since we know it's that powerful, let's give it a spin!
+## Learning Objectives
 
-The first step? Getting it installed.
+AI coding agents are becoming essential tools for professional developers. The sooner you get one set up and start building muscle memory, the sooner you'll experience the productivity gains firsthand. But how you install a tool matters just as much as which tool you pick — a messy install today means headaches tomorrow.
 
-## 📝 Prerequisites
+By the end of this exercise, you will:
 
-This tutorial assumes you're already familiar with:
+1. Understand why mise is preferred over the official `npm install -g` approach for installing Gemini CLI
+2. Install Gemini CLI through mise using a pre-configured `mise.toml`
+3. Verify that the installation succeeded and Gemini CLI is ready to use
+
+## Prerequisites
 
 - How to use mise (the "package manager for package managers")
 - How to work inside a GitHub Codespace
+- Completed the previous lesson: "What Is a Coding Agent?"
 
 If you're not yet comfortable with mise, we recommend learning the basics first.
 
-## 📖 Why Not the Official Install Command?
+## What You'll Build
 
-You may have seen this on the [Claude Code website](https://claude.ai/download/claude-code):
+By the end of this lesson, you'll have a working Gemini CLI installation managed by mise — ready to launch and start coding with AI assistance.
+
+---
+
+## Key Concepts
+
+### What Is Gemini CLI?
+
+Gemini CLI is Google's free, open-source AI coding agent. It runs directly in your terminal, powered by Google's Gemini model. Unlike a chatbot you visit in a browser, Gemini CLI is an **agent** — it can read your files, run commands, debug errors, and search the web, all autonomously.
+
+The official way to install it is via npm:
 
 ```
-curl -fsSL https://claude.ai/install-cli.sh | sh
-
+npm install -g @google/gemini-cli
 ```
 
-It works fine, but we **don't recommend** it. Here's why:
+This works, but it's a **global install** — and as we'll see, that comes with trade-offs.
 
-**The official command performs a "global install"** — it drops Claude Code into a fixed location on your machine. That creates a few problems:
+### Why Not the Official npm Install?
 
-1. **Upgrades are a hassle** — When a new version comes out, you have to deal with it manually.
-2. **Multiple versions don't coexist** — If an older project needs an older Claude Code while a newer project needs the latest, a global install simply can't handle that.
-3. **Uninstalling is messy** — The official script scatters files across your system, making a clean removal difficult.
+The `npm install -g` command drops Gemini CLI into a single, fixed location on your machine. That creates a few problems:
 
-**Installing with mise is a different story entirely:**
+1. **Upgrades are manual** — When a new version comes out, you have to remember to run the update command yourself.
+2. **Multiple versions don't coexist** — If one project needs a specific older version while another needs the latest, a global install can't handle that.
+3. **Uninstalling is messy** — Global npm packages scatter files in system directories, making clean removal tricky.
 
-1. **Switch versions effortlessly** — Different projects can pin different versions.
-2. **Upgrade in one command** — mise takes care of everything.
-3. **Stay tidy** — All your tools live in one place. Want to remove something? Done.
+### Why mise Is Better
 
-Since we've already learned mise — our "universal tool manager" — let's do things the right way from the start and save ourselves headaches down the road.
+Installing with mise is a completely different experience:
 
-## 💻 Hands-On: Installing Claude Code with mise
+1. **Switch versions effortlessly** — Different projects can pin different versions in their own `mise.toml`.
+2. **Upgrade in one command** — `mise install` takes care of everything.
+3. **Stay tidy** — All your tools live in one managed location. Want to remove something? One command, done.
 
-We've prepared a teaching repository with a pre-configured `` mise.toml `` file.
+Since you've already learned mise — your "universal tool manager" — let's use it from the start and save ourselves headaches down the road.
 
-### Preparation: Fork the Teaching Repository
+### How mise.toml Declares Your Tools
 
-1. Go to the teaching repository: [https://github.com/MacHu-GWU/learn_claude_code_basic-project](https://github.com/MacHu-GWU/learn_claude_code_basic-project)
+The magic lives in a simple config file. Open `mise.toml` in this project and you'll see:
+
+```toml
+[tools]
+gemini = "latest"
+```
+
+That's it. This single line tells mise: **this project needs the latest version of Gemini CLI**. You declare what you need, and mise handles the rest — downloading, installing, version-switching, cleanup.
+
+---
+
+## Exercises
+
+### Exercise 1: Fork and Launch the Codespace
+
+**Goal:** Get into the teaching environment with everything pre-configured.
+
+**What to do:**
+
+1. Go to the teaching repository: [https://github.com/easyscale-academy/learn_gemini_cli_basic-project](https://github.com/easyscale-academy/learn_gemini_cli_basic-project)
 2. Click the **Fork** button in the upper-right corner to copy it to your own GitHub account.
 3. Navigate to your forked repository.
-4. Switch to the `` 01-install-and-configure-claude-code `` branch.
+4. Switch to the `02-Install-Gemini-CLI` branch. On the repository page, you'll see a dropdown near the top-left showing the current branch name (likely `main` by default). Click it and select `02-Install-Gemini-CLI`.
+5. Click the green **Code** button, go to the **Codespaces** tab, and click **Create codespace on 02-Install-Gemini-CLI**.
 
-On the repository page, you'll see a dropdown near the top-left showing the current branch name (likely `` main `` by default). Click it and select `` 01-install-and-configure-claude-code ``.
+**What you'll notice:**
 
-### Launch the Codespace
+After the Codespace starts, check the bottom-left corner or status bar to confirm you're on the `02-Install-Gemini-CLI` branch. If not, switch before continuing.
 
-Once you're on the correct branch, click the green **Code** button, go to the **Codespaces** tab, and click **Create codespace on 01-install-and-configure-claude-code**.
+> **Key insight:** Always verify you're on the correct branch before doing any work. A wrong branch means a wrong starting point.
 
-> **Important:** After the Codespace starts, check the bottom-left corner or status bar to confirm you're on the `` 01-install-and-configure-claude-code `` branch. If not, switch before continuing.
+---
 
-### First, a Look at mise.toml
+### Exercise 2: Trust the Config and Activate mise
 
-Before touching anything, let's peek at the key file in this project. Open `` mise.toml `` and you'll see something like this:
+**Goal:** Tell mise it's safe to use this project's configuration, then activate it.
 
-```
-[tools]
-claude = "latest"
+**What to do:**
 
-```
-
-That's it! This single line says: **this project needs the latest version of Claude Code**.
-
-This is where mise shines — you declare "I need this tool at this version" in a config file, and mise handles the installation, management, and switching for you.
-
-### Step 1: Confirm mise Is Installed and Trust the Config
-
-If this is a freshly created Codespace, first verify that mise is available:
+1. Confirm mise is available by running:
 
 ```
 mise
-
 ```
 
-If you see help output, you're good. If you see `` command not found ``, you'll need to install mise first.
+If you see help output, you're good. If you see `command not found`, you'll need to install mise first.
 
-Then run the trust command:
+2. Trust the config file:
 
 ```
 mise trust
-
 ```
 
-**What does **`` mise trust ``** do?**
-
-Think about it: you've just downloaded a project from the internet, and it contains a `` mise.toml `` config file. That file could tell mise to install tools, set environment variables, run scripts… If mise executed all of that without asking, what happens when the config contains something malicious?
-
-That's why mise has a **safety mechanism**: you need to explicitly tell it, "I trust this file — go ahead and do what it says." That's `` mise trust ``.
-
-You only need to do this once per project.
-
-### Step 2: Activate mise
+3. Activate mise:
 
 ```
 mise activate
-
 ```
 
-**What does "activate" mean?**
+**What you'll notice:**
 
-`` mise activate `` tells mise: "Keep an eye on this directory — whenever `` mise.toml `` changes, apply the updates automatically."
+No dramatic output — and that's fine. These commands work silently.
 
-Think of it this way:
+> **Key insight:** `mise trust` is a safety mechanism. You've downloaded a project from the internet containing a `mise.toml` that could install tools, set environment variables, or run scripts. By running `mise trust`, you explicitly say: "I've reviewed this file — go ahead." You only need to do this once per project. `mise activate` tells mise to monitor the directory and automatically apply config changes — like an assistant that's always on standby.
 
-- Before activation, mise is a butler you have to summon every single time.
-- After activation, mise becomes an assistant that's always on standby, responding on its own.
+---
 
-Activation persists until you delete the Codespace (essentially a fresh start). You only need to do it once per project.
+### Exercise 3: Install Gemini CLI
 
-### Step 3: Install the Tools
+**Goal:** Let mise download and install Gemini CLI as declared in `mise.toml`.
 
-Now run:
+**What to do:**
+
+1. Run the install command:
 
 ```
 mise install
-
 ```
 
-mise reads the `` [tools] `` section in `` mise.toml `` and automatically downloads and installs every declared tool — in our case, the latest version of Claude Code.
+mise reads the `[tools]` section in `mise.toml` and automatically downloads and installs every declared tool — in our case, the latest version of Gemini CLI.
 
-**Smart Reuse**
-
-Here's an important advantage worth calling out: **mise reuses installations intelligently to save disk space**.
-
-Say you have 10 projects that all need Claude Code at the latest version. mise won't install 10 separate copies — it installs one and lets all 10 projects point to it.
-
-What if the latest version gets updated? mise installs the new one (so briefly you'll have two), but the old one can be easily cleaned up. And if some older project still depends on the previous version, it keeps working just fine.
-
-### Step 4: Verify the Installation
+2. Verify the installation:
 
 ```
-which claude
-
+which gemini
 ```
 
 If you see a path like this:
 
 ```
-/home/codespace/.local/share/mise/installs/claude/latest/bin/claude
-
+/home/codespace/.local/share/mise/installs/gemini/latest/bin/gemini
 ```
 
-🎉 **Congratulations — Claude Code is installed!**
+Congratulations — Gemini CLI is installed!
 
-The exact path may vary, but as long as you see output (rather than `` claude not found ``), you're all set.
+The exact path may vary, but as long as you see output (rather than `gemini not found`), you're all set.
 
-## 👨‍🏫 Mentor's Note: From "Copying" to "Referencing" — A Mental Upgrade
+**What you'll notice:**
 
-Now that installation is behind us, let's step back and talk about a deeper concept: **the version management dilemma**, and how mise solves it elegantly.
+The path contains `mise/installs` — this tells you mise is managing the installation, not a global npm install.
 
-### The Problem with Global Installs
+> **Key insight:** mise's "smart reuse" means if you have 10 projects all needing Gemini CLI at the latest version, mise installs only one copy and lets all 10 projects point to it. When a new version comes out, mise installs it alongside the old one — so older projects that depend on the previous version keep working fine.
 
-The traditional global install approach (like the `` curl ... | sh `` command) has a fundamental limitation: **your entire machine can only have one version**.
+---
 
-In practice, this causes real headaches:
+## Reflection: What Did We Learn?
 
-- Project A needs Python 3.9 (a dependency doesn't support newer versions)
-- Project B needs Python 3.11 (it uses newer language features)
-- Project C needs Python 3.12 (it's a brand-new project)
+Let's compare the two approaches side by side:
 
-If you can only have one version globally, what do you do? Reinstall every time you switch projects? Obviously impractical.
+**Global npm install (`npm install -g @google/gemini-cli`):**
 
-### The Waste of Per-Project Installs
+- One version for your entire machine
+- Manual upgrades
+- Messy uninstall
+- No per-project version control
 
-What about the opposite — every project installs its own copy?
+**mise-managed install (`gemini = "latest"` in mise.toml):**
 
-The problem: many projects need the exact same version. If 20 projects all use Python 3.11, do you really want 20 identical copies? That's a massive waste of disk space.
+- Per-project version declarations
+- One-command upgrades
+- Clean, centralized management
+- Smart reuse across projects
 
-### mise's Solution: Reference, Don't Copy
+The pattern is clear: **declarative tooling beats imperative installs**. Instead of running a command and hoping you remember what you installed where, you write down what you need in a config file, and your tool manager handles the rest.
 
-mise's core philosophy is: **keep one physical copy, and have everything else reference it**.
+---
 
-- Claude Code latest? One copy on disk.
-- 10 projects need it? They all point to that same copy.
-- New version released? Install it alongside the old one (some projects might still need it).
-- Done with the old version? Clean it up with a single command.
+## Mentor's Note
 
-This "one copy, many references" mindset will serve you well beyond just tool management.
+**Why this exercise matters:**
 
-### Where Else This Thinking Applies
+I know what you might be thinking — "We spent an entire lesson just to install a tool?" Fair question. But here's the thing: how you set up your tools says a lot about how you'll manage complexity down the road.
 
-Even outside software engineering, this mental model is remarkably useful.
+The real lesson here isn't about Gemini CLI specifically. It's about the difference between **imperative** and **declarative** approaches to managing your environment.
 
-Think about how many situations work the same way:
+- **Imperative:** "Run this command to install this thing." You hope you'll remember what you did six months from now.
+- **Declarative:** "This config file says what I need." Anyone (including future-you) can look at it and instantly know the project's requirements.
 
-- **One document used in multiple places** — Do you make 10 copies, or keep one and link to it everywhere?
-- **Preserving version history** — Do you make a full backup each time, or just save what changed?
-- **Multiple people collaborating** — Does everyone keep a separate copy, or does everyone edit the same one?
+**Key insights:**
 
-Modern cloud storage, version control, and knowledge management tools all rely on this idea under the hood:
+- The best tool setup is the one you never have to think about again. mise gives you that by making your tooling reproducible and self-documenting.
+- "Reference, don't copy" is a principle that extends far beyond tool management. Google Docs shared links, Git's delta storage, database foreign keys — they all follow the same idea: maintain one source of truth, and point to it from everywhere else.
+- Getting comfortable with declarative configuration early in your career pays compound interest. Dockerfiles, CI/CD pipelines, infrastructure-as-code — they all work the same way.
 
-- Google Docs shared links (one document, many viewers)
-- Git's delta storage (only the diffs)
-- Notion's database relations (references, not duplicates)
+**Next steps:**
 
-What mise teaches us isn't just how to install tools — it's a way of thinking about managing resources efficiently.
+Now that Gemini CLI is installed, you're ready to actually use it. In the next lesson, we'll launch Gemini CLI, authenticate with your Google account, and have your first conversation with an AI coding agent right in the terminal.
 
-## ✅ Completion Checklist
+---
+
+## Quick Reference
+
+**Installation commands:**
+
+```
+mise trust        # Trust the project's mise.toml (once per project)
+mise activate     # Activate mise monitoring (once per session)
+mise install      # Install all declared tools
+which gemini      # Verify Gemini CLI is installed
+```
+
+**Key files:**
+
+- `mise.toml` - Declares project tools and versions (contains `gemini = "latest"`)
+
+---
+
+## Completion Checklist
 
 - [ ] Forked the teaching repository to your own account
-- [ ] Switched to the `` 01-install-and-configure-claude-code `` branch
+- [ ] Switched to the `02-Install-Gemini-CLI` branch
 - [ ] Created a Codespace on the correct branch
 - [ ] Confirmed the Codespace is on the right branch
-- [ ] Ran `` mise `` to confirm it's installed
-- [ ] Ran `` mise trust `` to trust the config file
-- [ ] Ran `` mise activate `` to activate mise
-- [ ] Ran `` mise install `` to install Claude Code
-- [ ] Ran `` which claude `` and saw a path in the output
-
-## 💡 Key Takeaways
-
-1. **Use mise for Claude Code** — More flexible and cleaner than the official global install.
-2. **mise.toml declares your tooling** — List what you need and at what version under `` [tools] ``.
-3. **Three steps: trust → activate → install** — Trust the config, activate monitoring, install the tools.
-4. **Smart reuse** — Identical versions are stored once, saving disk space.
-5. `` which claude ``** to verify** — If you see a path, you're all set.
+- [ ] Ran `mise` to confirm it's installed
+- [ ] Ran `mise trust` to trust the config file
+- [ ] Ran `mise activate` to activate mise
+- [ ] Ran `mise install` to install Gemini CLI
+- [ ] Ran `which gemini` and saw a path in the output
