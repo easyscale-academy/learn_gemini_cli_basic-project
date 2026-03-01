@@ -21,3 +21,7 @@ Now that Gemini CLI is installed and authenticated, learn the most fundamental i
 ## 05-Read-URLs
 
 Building on file references from 04, learn to feed web URLs directly to Gemini CLI. Paste any public URL into your prompt and the AI fetches, reads, and answers questions about the page. Practice summarizing docs, asking targeted questions, and extracting specific details — turning Gemini into your research assistant.
+
+## 06-Read-Screenshots
+
+Complete your context-feeding toolkit by learning to share screenshots with Gemini CLI. Take a screenshot, upload it to your Codespace, copy the relative path, and reference it with `@`. Practice having the AI describe interfaces and interpret error messages — faster and more precise than text descriptions.
