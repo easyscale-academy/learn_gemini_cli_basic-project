@@ -1,4 +1,4 @@
-# Gemini CLI Basics (Part 4): Directing AI Output Exactly Where You Want It
+# Gemini CLI Basics: Directing AI Output Exactly Where You Want It
 
 > Learn how to tell Gemini CLI exactly where to write files, and have it document every change along the way.
 
