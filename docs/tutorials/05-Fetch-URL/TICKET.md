@@ -22,13 +22,7 @@ Read the tutorial: [Gemini CLI Basics: Getting AI to Read Web Pages for You](htt
 - [ ] **Exercise 3: Extract specific details** — Pick a technical docs page and ask Gemini to find specific information (like installation steps)
 - [ ] **Verify the output** — Confirm that the AI read the page correctly and gave you useful, accurate responses
 
-## Submission & Verification
-
-When you're done, run `/teach-check` to verify your work against the checklist. Say "ship it" when complete to generate RESULT.md, then share the RESULT.md file GitHub link with your instructor.
-
 ## Grading Rubric
-
-> **For instructors and /teach-check assistant** — Students may skip this section.
 
 - **URL fetching understanding:** Student can explain that pasting a URL into the prompt causes Gemini CLI to fetch and read the page content. They understand no special syntax is needed — just paste the URL.
 - **Page summary:** Student successfully pasted a URL (e.g., Gemini CLI GitHub page) and received a content-based summary from Gemini CLI. The response should reference actual page content, not generic knowledge.
