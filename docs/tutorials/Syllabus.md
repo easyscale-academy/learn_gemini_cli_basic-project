@@ -9,3 +9,7 @@ Learn the fundamental difference between an AI chatbot and an AI agent. Understa
 ## 02-Install-Gemini-CLI
 
 Install Google's Gemini CLI using mise instead of the official `npm install -g` approach. Learn why declarative tooling (`mise.toml`) beats imperative global installs — version flexibility, smart reuse, clean management. By the end, running `gemini` in your terminal shows the CLI interface.
+
+## 03-Gemini-CLI-Login-Guide
+
+Building on the installation from 02, authenticate Gemini CLI using Google OAuth. Walk through the full login flow in GitHub Codespaces — folder trust, auth method selection, OAuth authorization, and verification. Learn what OAuth is and why it's more secure than passwords. By the end, typing `who are you?` gets a live AI response.
