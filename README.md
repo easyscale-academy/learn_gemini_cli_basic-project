@@ -1,193 +1,261 @@
-# Installing Gemini CLI with mise: A Step-by-Step Guide to Efficient Tool Management
-
-> Learn how to install Google's Gemini CLI — a free, open-source AI coding agent — using mise for clean, version-managed tooling.
+# Gemini CLI Login Guide: Connecting to Your AI Coding Assistant
 
 ## Overview
 
-In the previous lesson, you learned what a coding agent is and how it differs from a regular chatbot. Now it's time to get one running on your machine. In this lesson, you'll install Gemini CLI — Google's open-source command-line AI agent — using mise, the universal tool manager you already know.
+Gemini CLI is Google's open-source command-line AI coding assistant. Before you can start using it, you need to prove who you are — that's what authentication is all about. This guide walks you through the complete login process, from launching Gemini CLI for the first time to verifying that your AI assistant is ready to work.
 
 ## Learning Objectives
 
-AI coding agents are becoming essential tools for professional developers. The sooner you get one set up and start building muscle memory, the sooner you'll experience the productivity gains firsthand. But how you install a tool matters just as much as which tool you pick — a messy install today means headaches tomorrow.
+Picture this: you've got a powerful AI coding assistant that can write code, fix bugs, and explore entire codebases. But here's the catch — how does it know you're allowed to use it?
+
+That's the problem authentication solves. And here's the good news: Gemini CLI offers a **free tier** (Gemini Code Assist for individuals) that anyone with a Google account can use. No credit card required. Whether you're on your own laptop or working in a cloud environment like GitHub Codespaces, you can sign in and get to work.
 
 By the end of this exercise, you will:
 
-1. Understand why mise is preferred over the official `npm install -g` approach for installing Gemini CLI
-2. Install Gemini CLI through mise using a pre-configured `mise.toml`
-3. Verify that the installation succeeded and Gemini CLI is ready to use
+1. Understand the three ways to authenticate Gemini CLI (Google login, API key, Vertex AI)
+2. Complete the full login flow in a GitHub Codespaces environment using Google OAuth
+3. Grasp the basics of how OAuth authorization works behind the scenes
 
 ## Prerequisites
 
-- How to use mise (the "package manager for package managers")
-- How to work inside a GitHub Codespace
-- Completed the previous lesson: "What Is a Coding Agent?"
-
-If you're not yet comfortable with mise, we recommend learning the basics first.
+- You already have Gemini CLI installed (running `` gemini `` in your Terminal doesn't throw an error)
+- You have a Google account (a free Gmail account works — no paid subscription required)
+- You know how to open a Terminal (command line)
 
 ## What You'll Build
 
-By the end of this lesson, you'll have a working Gemini CLI installation managed by mise — ready to launch and start coding with AI assistance.
+By the end of this guide, you'll have a fully authenticated Gemini CLI session. You'll be able to type a question, get an AI-generated response, and start using Gemini as your command-line coding assistant.
 
 ---
 
 ## Key Concepts
 
-### What Is Gemini CLI?
+### Google OAuth: Why Not Just a Password?
 
-Gemini CLI is Google's free, open-source AI coding agent. It runs directly in your terminal, powered by Google's Gemini model. Unlike a chatbot you visit in a browser, Gemini CLI is an **agent** — it can read your files, run commands, debug errors, and search the web, all autonomously.
+You might wonder: why can't you just type in a username and password to log into Gemini CLI?
 
-The official way to install it is via npm:
+This is where a security mechanism called **OAuth** comes in. Here's a real-world analogy:
 
-```
-npm install -g @google/gemini-cli
-```
+Imagine you live in a gated community (your Google account). A delivery driver (Gemini CLI) shows up with your food order.
 
-This works, but it's a **global install** — and as we'll see, that comes with trade-offs.
+- **The old-school way:** You give the driver a copy of your house key. Risky! What if they lose it?
+- **The OAuth way:** The driver arrives at the gate, and the security guard (Google's authorization system) calls you: "Someone named Gemini CLI wants to come in to make a delivery. Do you approve?" You say yes, the guard lets them in — but never hands over your key.
 
-### Why Not the Official npm Install?
+The benefits:
 
-The `npm install -g` command drops Gemini CLI into a single, fixed location on your machine. That creates a few problems:
+- Gemini CLI never learns your Google password
+- You can revoke access at any time from your Google account settings
+- Even if Gemini CLI had a security flaw, your Google account stays safe
 
-1. **Upgrades are manual** — When a new version comes out, you have to remember to run the update command yourself.
-2. **Multiple versions don't coexist** — If one project needs a specific older version while another needs the latest, a global install can't handle that.
-3. **Uninstalling is messy** — Global npm packages scatter files in system directories, making clean removal tricky.
+You've been using this mechanism every time you tap "Sign in with Google" in other apps. Today, you'll walk through the flow manually for the first time.
 
-### Why mise Is Better
+### Three Authentication Methods
 
-Installing with mise is a completely different experience:
+Gemini CLI supports three ways to authenticate:
 
-1. **Switch versions effortlessly** — Different projects can pin different versions in their own `mise.toml`.
-2. **Upgrade in one command** — `mise install` takes care of everything.
-3. **Stay tidy** — All your tools live in one managed location. Want to remove something? One command, done.
+1. **Login with Google** — Uses your Google account via OAuth. This is the easiest option and works with the free tier (Gemini Code Assist for individuals). **Most learners should pick this one.**
+2. **Use Gemini API Key** — For developers who want to use a manually generated API key from Google AI Studio.
+3. **Vertex AI** — For enterprise users working within Google Cloud Platform projects.
 
-Since you've already learned mise — your "universal tool manager" — let's use it from the start and save ourselves headaches down the road.
+### Folder Trust: A Safety Feature
 
-### How mise.toml Declares Your Tools
-
-The magic lives in a simple config file. Open `mise.toml` in this project and you'll see:
-
-```toml
-[tools]
-gemini = "latest"
-```
-
-That's it. This single line tells mise: **this project needs the latest version of Gemini CLI**. You declare what you need, and mise handles the rest — downloading, installing, version-switching, cleanup.
+When you first launch Gemini CLI in a project, it asks whether you trust the files in that folder. Why? Because projects can contain configuration files (like custom commands, skills, hooks, and MCP servers) that Gemini CLI will load and potentially execute. This is a safety check — you're telling Gemini CLI: "Yes, I know what's in this folder, and it's safe to load these configurations."
 
 ---
 
 ## Exercises
 
-### Exercise 1: Fork and Launch the Codespace
+### Exercise 1: Launch Gemini CLI and Handle Initial Prompts
 
-**Goal:** Get into the teaching environment with everything pre-configured.
+**Goal:** Start Gemini CLI in your Codespaces Terminal and navigate through the initial setup prompts.
 
 **What to do:**
 
-1. Go to the teaching repository: [https://github.com/easyscale-academy/learn_gemini_cli_basic-project](https://github.com/easyscale-academy/learn_gemini_cli_basic-project)
-2. Click the **Fork** button in the upper-right corner to copy it to your own GitHub account.
-3. Navigate to your forked repository.
-4. Switch to the `02-Install-Gemini-CLI` branch. On the repository page, you'll see a dropdown near the top-left showing the current branch name (likely `main` by default). Click it and select `02-Install-Gemini-CLI`.
-5. Click the green **Code** button, go to the **Codespaces** tab, and click **Create codespace on 02-Install-Gemini-CLI**.
+1. Open your Terminal in GitHub Codespaces.
+2. Type `` gemini `` and press Enter. You'll see the GEMINI ASCII art logo and some tips for getting started.
+
+![03-Gemini-CLI-Login-Guide-1.png](img/03-Gemini-CLI-Login-Guide/03-Gemini-CLI-Login-Guide-1.png)
+
+3. Gemini CLI first asks: **"Do you want to connect GitHub Codespaces to Gemini CLI?"** This prompt offers to install a VS Code extension that lets the CLI access your open files and display diffs directly in Codespaces.
+
+```
+> Do you want to connect GitHub Codespaces to Gemini CLI?
+If you select Yes, we'll install an extension that allows the CLI to access your
+open files and display diffs directly in GitHub Codespaces.
+
+● 1. Yes
+  2. No (esc)
+  3. No, don't ask again
+```
+
+Select **Yes** and press Enter. You may see a message saying "No installer is available for GitHub Codespaces. Please install the 'Gemini CLI Companion' extension manually from the marketplace." — that's fine, just continue.
+
+4. Next, you'll see the **"Do you trust the files in this folder?"** prompt:
+
+![03-Gemini-CLI-Login-Guide-2.png](img/03-Gemini-CLI-Login-Guide/03-Gemini-CLI-Login-Guide-2.png)
+
+```
+Do you trust the files in this folder?
+
+Trusting a folder allows Gemini CLI to load its local configurations, including
+custom commands, hooks, MCP servers, agent skills, and settings.
+These configurations could execute code on your behalf or change the behavior of the CLI.
+
+This folder contains:
+  • Commands (1): tell-me-a-joke-cmd
+  • Skills (1): tell-me-a-joke
+  • Setting overrides (3): general, ide, model
+
+● 1. Trust folder (learn_gemini_cli_basic-project)
+  2. Trust parent folder (workspaces)
+  3. Don't trust
+```
+
+Select **1. Trust folder** and press Enter. This tells Gemini CLI it's safe to load the project's local configurations.
 
 **What you'll notice:**
 
-After the Codespace starts, check the bottom-left corner or status bar to confirm you're on the `02-Install-Gemini-CLI` branch. If not, switch before continuing.
+After handling these two prompts, Gemini CLI moves on to the authentication step. These prompts only appear on the first launch in a new project folder.
 
-> **Key insight:** Always verify you're on the correct branch before doing any work. A wrong branch means a wrong starting point.
+> **Key insight:** The folder trust mechanism is a security feature. It prevents malicious project configurations from automatically running when you open a folder. Always review what a folder contains before trusting it.
 
 ---
 
-### Exercise 2: Trust the Config and Activate mise
+### Exercise 2: Choose Your Authentication Method
 
-**Goal:** Tell mise it's safe to use this project's configuration, then activate it.
+**Goal:** Select "Login with Google" as your authentication method.
 
 **What to do:**
 
-1. Confirm mise is available by running:
+1. After the trust prompt, Gemini CLI asks: **"How would you like to authenticate for this project?"**
+
+![03-Gemini-CLI-Login-Guide-3.png](img/03-Gemini-CLI-Login-Guide/03-Gemini-CLI-Login-Guide-3.png)
 
 ```
-mise
+? Get started
+
+How would you like to authenticate for this project?
+
+● 1. Login with Google
+  2. Use Gemini API Key
+  3. Vertex AI
+
+No authentication method selected.
+
+(Use Enter to select)
+
+Terms of Services and Privacy Notice for Gemini CLI
+https://geminicli.com/docs/resources/tos-privacy/
 ```
 
-If you see help output, you're good. If you see `command not found`, you'll need to install mise first.
-
-2. Trust the config file:
-
-```
-mise trust
-```
-
-3. Activate mise:
-
-```
-mise activate
-```
+2. Select **1. Login with Google** and press Enter.
 
 **What you'll notice:**
 
-No dramatic output — and that's fine. These commands work silently.
+- Below the options, you'll see a link to the Terms of Services and Privacy Notice. It's good practice to read these, especially the first time.
+- The "No authentication method selected." message in red is just a status indicator — it disappears once you make your selection.
 
-> **Key insight:** `mise trust` is a safety mechanism. You've downloaded a project from the internet containing a `mise.toml` that could install tools, set environment variables, or run scripts. By running `mise trust`, you explicitly say: "I've reviewed this file — go ahead." You only need to do this once per project. `mise activate` tells mise to monitor the directory and automatically apply config changes — like an assistant that's always on standby.
+> **Key insight:** "Login with Google" uses the free Gemini Code Assist for individuals plan. You don't need a paid subscription — any Google account works. This is the recommended path for learners.
 
 ---
 
-### Exercise 3: Install Gemini CLI
+### Exercise 3: Complete the Google OAuth Authorization
 
-**Goal:** Let mise download and install Gemini CLI as declared in `mise.toml`.
+**Goal:** Authorize Gemini CLI to access your Google account by completing the OAuth flow.
 
 **What to do:**
 
-1. Run the install command:
+1. After selecting "Login with Google," the Terminal displays a long Google OAuth URL and a prompt:
+
+![03-Gemini-CLI-Login-Guide-4.png](img/03-Gemini-CLI-Login-Guide/03-Gemini-CLI-Login-Guide-4.png)
 
 ```
-mise install
+Please visit the following URL to authorize the application:
+
+https://accounts.google.com/o/oauth2/v2/auth?redirect_uri=...&scope=...&client_id=...(a very long URL)
+
+Enter the authorization code:
 ```
 
-mise reads the `[tools]` section in `mise.toml` and automatically downloads and installs every declared tool — in our case, the latest version of Gemini CLI.
+2. **If you're in Codespaces with VS Code**, a popup dialog may appear asking **"Do you want Code to open the external website?"** — this shows the Google OAuth URL.
 
-2. Verify the installation:
+![03-Gemini-CLI-Login-Guide-5.png](img/03-Gemini-CLI-Login-Guide/03-Gemini-CLI-Login-Guide-5.png)
 
-```
-which gemini
-```
+Click **Open** to launch the authorization page in your browser. (You can also click **Copy** and paste the URL into any browser manually.)
 
-If you see a path like this:
+3. In your browser, Google will ask you to sign in (if you're not already) and then ask you to grant permissions to Gemini CLI. Review the permissions and click **Allow** or **Continue**.
 
-```
-/home/codespace/.local/share/mise/installs/gemini/latest/bin/gemini
-```
+4. After you approve, Google will display an **authorization code** — a long string that starts with something like `` 4/0A... ``.
 
-Congratulations — Gemini CLI is installed!
+5. **Copy the authorization code** from your browser.
 
-The exact path may vary, but as long as you see output (rather than `gemini not found`), you're all set.
+6. **Paste it into the Terminal** after the `` Enter the authorization code: `` prompt, and press Enter.
+
+![03-Gemini-CLI-Login-Guide-6.png](img/03-Gemini-CLI-Login-Guide/03-Gemini-CLI-Login-Guide-6.png)
 
 **What you'll notice:**
 
-The path contains `mise/installs` — this tells you mise is managing the installation, not a global npm install.
+If the code is valid, Gemini CLI completes the login silently and moves to the main interface. There's no dramatic "Login successful!" banner — it just works.
 
-> **Key insight:** mise's "smart reuse" means if you have 10 projects all needing Gemini CLI at the latest version, mise installs only one copy and lets all 10 projects point to it. When a new version comes out, mise installs it alongside the old one — so older projects that depend on the previous version keep working fine.
+> **Key insight:** The authorization code is a one-time token. It's only valid for a few minutes and can only be used once. If it expires, just restart Gemini CLI (`` gemini ``) and go through the flow again.
+
+---
+
+### Exercise 4: Verify Your AI Assistant Is Working
+
+**Goal:** Confirm that Gemini CLI is properly authenticated and responding to your commands.
+
+**What to do:**
+
+1. After successful login, you'll see the Gemini CLI main interface showing:
+   - **Logged in with Google:** your-email@gmail.com
+   - **Plan:** Gemini Code Assist for individuals
+   - Tips for getting started
+   - An input prompt (`` > ``) at the bottom
+
+![03-Gemini-CLI-Login-Guide-7.png](img/03-Gemini-CLI-Login-Guide/03-Gemini-CLI-Login-Guide-7.png)
+
+2. Type the following into the input field:
+
+```
+who are you?
+```
+
+3. Press Enter. Gemini CLI should reply with something like:
+
+```
+I am Gemini CLI, an interactive assistant specialized in software engineering.
+I can help you explore codebases, implement features, fix bugs, and automate
+workflows directly from your terminal.
+
+In this workspace, I have access to tools for searching and editing files,
+running shell commands, and utilizing specialized skills (like the tell-me-a-joke
+skill I see in your .gemini directory). How can I help you with your project today?
+```
+
+If you see a response like this, congratulations — your AI coding assistant is officially online!
+
+**What you'll notice:**
+
+- The bottom status bar shows your project path, sandbox mode, and the current model (e.g., `` gemini-3-flash-preview ``).
+- Gemini CLI is aware of your project's `` .gemini `` folder and its contents (skills, commands, etc.).
+
+> **Key insight:** The "Plan: Gemini Code Assist for individuals" confirms you're on the free tier. Google may change plans and quotas over time (as of March 2026, the free tier is available), so check the [official Gemini CLI documentation](https://geminicli.com) for the latest information.
 
 ---
 
 ## Reflection: What Did We Learn?
 
-Let's compare the two approaches side by side:
+Let's recap the complete login flow you just walked through:
 
-**Global npm install (`npm install -g @google/gemini-cli`):**
+1. **Launch** — Typed `` gemini `` to start the CLI
+2. **Codespaces Extension** — Chose whether to connect the VS Code extension
+3. **Folder Trust** — Told Gemini CLI it's safe to load project configurations
+4. **Authentication Method** — Selected "Login with Google"
+5. **OAuth Authorization** — Copied a URL, authorized in the browser, pasted the code back
+6. **Verification** — Confirmed the AI is responding with `` who are you? ``
 
-- One version for your entire machine
-- Manual upgrades
-- Messy uninstall
-- No per-project version control
-
-**mise-managed install (`gemini = "latest"` in mise.toml):**
-
-- Per-project version declarations
-- One-command upgrades
-- Clean, centralized management
-- Smart reuse across projects
-
-The pattern is clear: **declarative tooling beats imperative installs**. Instead of running a command and hoping you remember what you installed where, you write down what you need in a config file, and your tool manager handles the rest.
+The key difference from other CLI tools: Gemini CLI uses Google OAuth, which means you never give it your password directly. Instead, Google acts as a trusted middleman that confirms your identity.
 
 ---
 
@@ -195,50 +263,63 @@ The pattern is clear: **declarative tooling beats imperative installs**. Instead
 
 **Why this exercise matters:**
 
-I know what you might be thinking — "We spent an entire lesson just to install a tool?" Fair question. But here's the thing: how you set up your tools says a lot about how you'll manage complexity down the road.
+You might think — login is just login, what's worth discussing?
 
-The real lesson here isn't about Gemini CLI specifically. It's about the difference between **imperative** and **declarative** approaches to managing your environment.
-
-- **Imperative:** "Run this command to install this thing." You hope you'll remember what you did six months from now.
-- **Declarative:** "This config file says what I need." Anyone (including future-you) can look at it and instantly know the project's requirements.
+Let me explain why there's real product design wisdom hiding behind this seemingly simple process.
 
 **Key insights:**
 
-- The best tool setup is the one you never have to think about again. mise gives you that by making your tooling reproducible and self-documenting.
-- "Reference, don't copy" is a principle that extends far beyond tool management. Google Docs shared links, Git's delta storage, database foreign keys — they all follow the same idea: maintain one source of truth, and point to it from everywhere else.
-- Getting comfortable with declarative configuration early in your career pays compound interest. Dockerfiles, CI/CD pipelines, infrastructure-as-code — they all work the same way.
+- **Free AI for everyone.** Unlike many AI coding tools that require a paid subscription, Gemini CLI's free tier (Gemini Code Assist for individuals) means anyone with a Google account can access a powerful coding assistant. This is a deliberate choice by Google to lower the barrier to entry for AI-assisted development.
+
+- **The command line is the most universal interface.** Your MacBook, your company's Linux servers, a Codespaces instance in the cloud, a Raspberry Pi running Ubuntu — if it has a Terminal, Gemini CLI can run on it. When you need to debug on a production server, troubleshoot inside a Docker container, or automate tasks in a CI/CD pipeline, you'll appreciate that Gemini CLI chose the command line.
+
+- **Your first hands-on encounter with Google OAuth.** Today you walked through a complete Google OAuth authorization flow with your own hands. You've gone from "I've heard of OAuth" to "I've actually used OAuth." When you're building your own app someday and need to integrate "Sign in with Google," you'll think back to today and understand exactly what's happening behind that button.
+
+- **Folder trust is a security mindset.** The "Do you trust the files in this folder?" prompt teaches an important principle: don't blindly execute code from untrusted sources. This mindset will serve you well throughout your career, whether you're reviewing pull requests, installing npm packages, or opening downloaded projects.
 
 **Next steps:**
 
-Now that Gemini CLI is installed, you're ready to actually use it. In the next lesson, we'll launch Gemini CLI, authenticate with your Google account, and have your first conversation with an AI coding agent right in the terminal.
+Now that you're connected, it's time to start creating with Gemini CLI. Try asking it to explain a piece of code in your project, write a simple function, or help you debug something. The more you use it, the more natural the workflow becomes.
 
 ---
 
 ## Quick Reference
 
-**Installation commands:**
-
+**Launch Gemini CLI:**
 ```
-mise trust        # Trust the project's mise.toml (once per project)
-mise activate     # Activate mise monitoring (once per session)
-mise install      # Install all declared tools
-which gemini      # Verify Gemini CLI is installed
+gemini
+```
+
+**Re-authenticate (if needed):**
+```
+gemini auth login
+```
+
+**Check current auth status:**
+```
+gemini auth status
 ```
 
 **Key files:**
-
-- `mise.toml` - Declares project tools and versions (contains `gemini = "latest"`)
+- `` .gemini/ `` — Project-level Gemini CLI configuration directory
+- `` GEMINI.md `` — Project instructions file that Gemini CLI reads for context
 
 ---
 
 ## Completion Checklist
 
-- [ ] Forked the teaching repository to your own account
-- [ ] Switched to the `02-Install-Gemini-CLI` branch
-- [ ] Created a Codespace on the correct branch
-- [ ] Confirmed the Codespace is on the right branch
-- [ ] Ran `mise` to confirm it's installed
-- [ ] Ran `mise trust` to trust the config file
-- [ ] Ran `mise activate` to activate mise
-- [ ] Ran `mise install` to install Gemini CLI
-- [ ] Ran `which gemini` and saw a path in the output
+- [ ] Successfully ran `` gemini `` in Terminal and saw the GEMINI ASCII art welcome screen
+- [ ] Responded to the "Connect GitHub Codespaces" prompt
+- [ ] Trusted the project folder when prompted
+- [ ] Selected "Login with Google" as the authentication method
+- [ ] Completed Google OAuth authorization (opened URL, granted permissions, pasted code)
+- [ ] Saw "Logged in with Google" with your email address and plan information
+- [ ] Typed `` who are you? `` and received a full self-introduction response from Gemini CLI
+
+## Key Takeaways
+
+1. **Three auth methods:** Login with Google (free, recommended), Gemini API Key, and Vertex AI — most learners should pick the first one.
+2. **Folder trust:** Gemini CLI asks you to trust a folder before loading its configurations — this is a security feature, not a nuisance.
+3. **OAuth in action:** Google acts as a trusted middleman. Gemini CLI gets permission to work on your behalf without ever seeing your password.
+4. **Free tier available:** As of March 2026, Gemini Code Assist for individuals is free with any Google account.
+5. **Command line wins:** Gemini CLI runs anywhere there's a Terminal — that's the whole point.

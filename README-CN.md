@@ -1,236 +1,273 @@
-# 安装 Gemini CLI：用 mise 管理你的 AI 编程工具
+# Gemini CLI 登录指南：连接你的 AI 编程助手
 
 ## 📋 本节目标
 
-- 理解为什么推荐用 mise 安装 Gemini CLI
-- 通过 mise 完成 Gemini CLI 的安装
-- 验证安装成功
+- 理解 Gemini CLI 的三种登录方式（Google 登录、API Key、Vertex AI）
+- 在 GitHub Codespaces 环境中完成完整的 Google OAuth 登录流程
+- 初步了解 OAuth 授权和 Folder Trust 的基本概念
 
 ## 🎯 为什么要学这个？
 
-上一节课我们学了什么是 Coding Agent（编程智能体），也知道了它和普通聊天机器人的本质区别。现在，是时候真正把一个 Agent 装到你的电脑上了。
+想象一下：你有一个超级厉害的 AI 编程助手，它能帮你写代码、debug、探索整个代码库。但问题是——你怎么证明"你是你"，让它知道你有权使用它？
 
-Gemini CLI 是 Google 推出的免费、开源的命令行 AI 编程智能体，由 Google 的 Gemini 模型驱动。它直接在你的 Terminal 里运行，能帮你读文件、写代码、调试、搜索——而且是自主完成的。
+这就是登录要解决的问题。
 
-试试的第一步，就是安装。
+好消息是：Gemini CLI 提供了**免费额度**（Gemini Code Assist for individuals），任何有 Google 账号的人都能使用，不需要绑信用卡。无论你是在自己的电脑上，还是在 GitHub Codespaces 这样的云端环境里，你都能成功登录并使用它。
+
+今天我们要学的，就是如何在 Codespaces 环境下顺利"接通"你的 Gemini CLI。
 
 ## 📝 前置知识提示
 
-本教程假设你已经了解：
+本教程假设：
 
-- 如何使用 mise（"包管理器的包管理器"）
-- 如何在 GitHub Codespace 中工作
-- 已完成上一节课："什么是 Coding Agent？"
+- 你已经安装好了 Gemini CLI（在 Terminal 中输入 `` gemini `` 命令不会报错）
+- 你拥有一个 Google 账号（免费的 Gmail 账号就行，不需要付费订阅）
+- 你知道如何打开 Terminal（终端/命令行）
 
-如果你对 mise 还不熟悉，建议先了解 mise 的基本安装和使用。
+---
 
-## 📖 为什么不用官方安装命令？
+## 📖 登录流程详解
 
-你可能在 [Gemini CLI 官方文档](https://geminicli.com/docs/get-started/installation/) 看到过这样的安装命令：
+### 第一步：启动 Gemini CLI 并处理初始提示
 
-```
-npm install -g @google/gemini-cli
-```
+在 Terminal 中输入 `` gemini `` 并按回车，你会看到一个酷炫的 GEMINI ASCII 艺术 Logo，还有一些使用提示。
 
-这个命令当然能用，但我们**不推荐**这种方式。原因是：
+![03-Gemini-CLI-Login-Guide-1.png](img/03-Gemini-CLI-Login-Guide/03-Gemini-CLI-Login-Guide-1.png)
 
-**官方命令是"全局安装"（global install）**——它通过 npm 把 Gemini CLI 装到你整台电脑的某个固定位置。这带来几个问题：
-
-1. **版本升级麻烦** — 有新版本出来，你得自己记着跑更新命令
-2. **多版本共存困难** — 如果某个老项目需要旧版本 Gemini CLI，而新项目需要最新版，全局安装根本做不到
-3. **卸载清理困难** — 全局 npm 包散落在系统目录里，想彻底卸载很麻烦
-
-**用 mise 安装则完全不同：**
-
-1. **版本切换自如** — 不同项目可以在各自的 `mise.toml` 里指定不同版本
-2. **升级一行命令** — `mise install` 自动搞定
-3. **干净整洁** — 所有工具统一管理，想删就删，一条命令搞定
-
-既然我们已经学了 mise 这个"万能工具管理器"，那就从一开始就用最靠谱的方式来安装，以后省心省力。
-
-## 💻 实战：用 mise 安装 Gemini CLI
-
-我们准备了一个教学用的 Repository，里面已经配置好了 `mise.toml` 文件。
-
-### 先观察：mise.toml 文件
-
-在开始操作之前，我们先看看这个项目里的关键文件。打开 `mise.toml`，你会看到类似这样的内容：
-
-```toml
-[tools]
-gemini = "latest"
-```
-
-就这么简单！这行配置的意思是：**这个项目需要最新版本的 Gemini CLI**。
-
-mise 的强大之处就在于：你只需要在配置文件里声明"我需要什么工具、什么版本"，剩下的安装、管理、切换都交给 mise。
-
-### 准备工作：Fork 教学 Repository
-
-1. 访问教学 Repository：[https://github.com/easyscale-academy/learn_gemini_cli_basic-project](https://github.com/easyscale-academy/learn_gemini_cli_basic-project)
-2. 点击右上角的 **Fork** 按钮，将它复制到你自己的 GitHub 账号下
-3. 进入你 Fork 后的 Repository
-4. 切换到 `02-Install-Gemini-CLI` 这个 Branch
-
-在 Repository 页面左上方，你会看到一个显示当前 Branch 名称的下拉菜单（默认可能是 `main`）。点击它，选择 `02-Install-Gemini-CLI`。
-
-### 启动 Codespace
-
-切换到正确的 Branch 后，点击绿色的 **Code** 按钮，选择 **Codespaces** 标签页，点击 **Create codespace on 02-Install-Gemini-CLI**。
-
-> **重要：** Codespace 启动后，检查一下左下角或底部状态栏显示的 Branch 是不是 `02-Install-Gemini-CLI`。如果不是，点击切换到正确的 Branch 再继续。
-
-### 第一步：确认 mise 已安装并信任配置文件
-
-如果你是新创建的 Codespace，先确认 mise 已经安装：
+首先，Gemini CLI 会问你：**"Do you want to connect GitHub Codespaces to Gemini CLI?"**（你想把 GitHub Codespaces 和 Gemini CLI 连接起来吗？）这个提示是要安装一个 VS Code 扩展，让 CLI 能访问你打开的文件、在 Codespaces 中直接显示代码差异。
 
 ```
-mise
+> Do you want to connect GitHub Codespaces to Gemini CLI?
+If you select Yes, we'll install an extension that allows the CLI to access your
+open files and display diffs directly in GitHub Codespaces.
+
+● 1. Yes
+  2. No (esc)
+  3. No, don't ask again
 ```
 
-如果看到帮助信息，说明 mise 已就绪。如果看到 `command not found`，需要先安装 mise。
+选择 **Yes** 然后按回车。你可能会看到一条消息说 "No installer is available for GitHub Codespaces..."——没关系，继续往下走就好。
 
-然后，运行信任命令：
+接下来，你会看到 **"Do you trust the files in this folder?"**（你信任这个文件夹里的文件吗？）的提示：
 
-```
-mise trust
-```
-
-**什么是 `mise trust`？**
-
-想象一下：你从网上下载了一个项目，里面有个 `mise.toml` 配置文件。这个文件可能会告诉 mise 安装各种工具、设置环境变量、运行脚本……如果 mise 不问你就自动执行，万一配置文件里有恶意内容怎么办？
-
-所以 mise 有个**安全机制**：对于每个项目的配置文件，你需要明确告诉 mise "我信任这个文件，你可以按它说的做"。这就是 `mise trust` 的作用。
-
-这个操作对每个项目只需要做一次。
-
-### 第二步：激活 mise
+![03-Gemini-CLI-Login-Guide-2.png](img/03-Gemini-CLI-Login-Guide/03-Gemini-CLI-Login-Guide-2.png)
 
 ```
-mise activate
+Do you trust the files in this folder?
+
+Trusting a folder allows Gemini CLI to load its local configurations, including
+custom commands, hooks, MCP servers, agent skills, and settings.
+These configurations could execute code on your behalf or change the behavior of the CLI.
+
+This folder contains:
+  • Commands (1): tell-me-a-joke-cmd
+  • Skills (1): tell-me-a-joke
+  • Setting overrides (3): general, ide, model
+
+● 1. Trust folder (learn_gemini_cli_basic-project)
+  2. Trust parent folder (workspaces)
+  3. Don't trust
 ```
 
-**什么是"激活"？**
+这是什么意思呢？项目文件夹里可能有一些配置文件（比如自定义命令、skills、hooks、MCP servers 等），Gemini CLI 会加载并执行它们。这个提示就是在问你："这些配置是安全的吗？你确定要加载它们吗？"
 
-`mise activate` 告诉 mise："请监控这个目录，当 `mise.toml` 有任何更新时，自动让改动生效。"
+选择 **1. Trust folder** 然后按回车。这告诉 Gemini CLI 可以安全地加载这个项目的本地配置。
 
-打个比方：
+> **重点**：Folder Trust 机制是一个安全特性。它防止恶意的项目配置在你打开文件夹时自动运行。在信任一个文件夹之前，最好先看看里面有什么。
 
-- 没激活之前，mise 像是一个"需要你每次手动呼叫的管家"
-- 激活之后，mise 变成"随时待命、自动响应的智能管家"
+---
 
-激活状态会一直保持，直到你删除这个 Codespace（相当于重装系统）。每个项目只需要激活一次。
+### 第二步：选择登录方式
 
-### 第三步：安装工具
+处理完信任提示后，Gemini CLI 会问你：**"How would you like to authenticate for this project?"**（你想用什么方式来认证？）
 
-现在，运行安装命令：
-
-```
-mise install
-```
-
-mise 会读取 `mise.toml` 里的 `[tools]` 配置，自动下载并安装所有声明的工具——在我们这个例子里，就是最新版本的 Gemini CLI。
-
-**mise 的智能复用**
-
-这里要说一个 mise 的重要优点：**智能复用，节约磁盘空间**。
-
-假设你有 10 个项目，都需要用到 Gemini CLI latest 版本。mise 不会傻傻地装 10 份，而是只安装 1 份，然后让 10 个项目都"引用"这同一份。
-
-如果 latest 版本有更新呢？mise 会安装新版本（这时确实会有 2 份），但旧版本可以很容易地清理掉。而且如果某个老项目还需要旧版本，它依然能正常工作。
-
-### 第四步：验证安装成功
+![03-Gemini-CLI-Login-Guide-3.png](img/03-Gemini-CLI-Login-Guide/03-Gemini-CLI-Login-Guide-3.png)
 
 ```
-which gemini
+? Get started
+
+How would you like to authenticate for this project?
+
+● 1. Login with Google
+  2. Use Gemini API Key
+  3. Vertex AI
+
+No authentication method selected.
+
+(Use Enter to select)
+
+Terms of Services and Privacy Notice for Gemini CLI
+https://geminicli.com/docs/resources/tos-privacy/
 ```
 
-如果看到类似这样的路径输出：
+这里有三个选项：
+
+**选项 1：Login with Google** 用你的 Google 账号通过 OAuth 登录。这是最简单的方式，而且支持免费额度（Gemini Code Assist for individuals）。**绝大多数学员应该选这个。**
+
+**选项 2：Use Gemini API Key** 给开发者用的，需要去 Google AI Studio 手动生成一个 API Key。
+
+**选项 3：Vertex AI** 给企业用户用的，需要在 Google Cloud Platform 项目中配置。
+
+选择 **1. Login with Google** 然后按回车。
+
+> **小贴士**：选项下方有一个 Terms of Services 的链接，第一次使用的时候建议看一看。红色的 "No authentication method selected." 只是一个状态提示，选好之后就会消失。
+
+---
+
+### 第三步：完成 Google OAuth 授权
+
+选择 "Login with Google" 后，Terminal 会显示一个很长的 Google OAuth URL，以及一个输入提示：
+
+![03-Gemini-CLI-Login-Guide-4.png](img/03-Gemini-CLI-Login-Guide/03-Gemini-CLI-Login-Guide-4.png)
 
 ```
-/home/codespace/.local/share/mise/installs/gemini/latest/bin/gemini
+Please visit the following URL to authorize the application:
+
+https://accounts.google.com/o/oauth2/v2/auth?redirect_uri=...&scope=...&client_id=...（一长串 URL）
+
+Enter the authorization code:
 ```
 
-🎉 **恭喜！Gemini CLI 安装成功！**
+**如果你在 VS Code 的 Codespaces 中**，可能会弹出一个对话框问你 **"Do you want Code to open the external website?"**——这是 VS Code 检测到了 Terminal 里的 URL，问你要不要打开它。
 
-路径的具体内容可能略有不同，但只要有输出（而不是 `gemini not found`），就说明安装成功了。
+![03-Gemini-CLI-Login-Guide-5.png](img/03-Gemini-CLI-Login-Guide/03-Gemini-CLI-Login-Guide-5.png)
 
-## 👨‍🏫 导师寄语：从"拷贝"到"引用"的思维升级
+点击 **Open** 就可以在浏览器中打开授权页面。（你也可以点击 **Copy** 按钮复制 URL，然后手动粘贴到任意浏览器中打开。）
 
-完成安装后，我想和你聊聊一个更深层的概念：**工具版本管理的两难困境**，以及 mise 如何优雅地解决它。
+在浏览器中，Google 会让你登录（如果还没登录的话），然后问你是否同意给 Gemini CLI 授权。确认无误后，点击 **Allow** 或 **Continue**。
 
-### 全局安装的困境
+授权成功后，Google 会给你一个 **authorization code**（授权码）——一串以 `` 4/0A... `` 开头的很长的字符串。
 
-传统的"全局安装"方式（比如 `npm install -g`）有一个根本问题：**整台电脑只能有一个版本**。
+**复制这个授权码**，然后回到 Terminal，在 `` Enter the authorization code: `` 后面粘贴，按回车。
 
-这在现实工作中会造成很大麻烦：
+![03-Gemini-CLI-Login-Guide-6.png](img/03-Gemini-CLI-Login-Guide/03-Gemini-CLI-Login-Guide-6.png)
 
-- 项目 A 需要 Python 3.9（因为某个依赖不支持新版本）
-- 项目 B 需要 Python 3.11（因为要用新特性）
-- 项目 C 需要 Python 3.12（因为是最新项目）
+> **注意**：授权码是一次性的，只有几分钟的有效期，过期了重新运行 `` gemini `` 再走一遍流程就好。
 
-如果只能全局安装一个版本，你怎么办？每次切换项目都重新安装？这显然不现实。
+---
 
-### 每个项目独立安装的浪费
+### 第四步：验证 AI 是否正常工作
 
-那反过来，每个项目都独立安装自己的工具呢？
+登录成功后，你会看到 Gemini CLI 的主界面，显示：
 
-问题是：很多项目需要的版本是相同的。如果你有 20 个项目都用 Python 3.11，难道要装 20 份一模一样的 Python？这太浪费磁盘空间了。
+- **Logged in with Google:** 你的邮箱地址
+- **Plan:** Gemini Code Assist for individuals
+- 使用提示（Tips for getting started）
+- 底部有一个输入框，前面有个 `` > `` 符号
 
-### mise 的解法：引用而非拷贝
+![03-Gemini-CLI-Login-Guide-7.png](img/03-Gemini-CLI-Login-Guide/03-Gemini-CLI-Login-Guide-7.png)
 
-mise 的核心思想是：**只维护一份实体，其他都是"引用"**。
+现在来测试一下你的 AI 助手是否已经就绪。在底部的输入框中输入：
 
-- Gemini CLI latest 版本？只在磁盘上存一份
-- 10 个项目都要用？都"指向"这同一份
-- 有新版本？安装新的，但旧的不删（因为可能有项目还在用）
-- 确定不需要旧版本了？一条命令清理干净
+```
+who are you?
+```
 
-这种"只维护一份，其他都是引用"的思维，可能会伴随你终生。
+按回车后，Gemini CLI 会回复类似这样的内容：
 
-### 这种思维的迁移价值
+```
+I am Gemini CLI, an interactive assistant specialized in software engineering.
+I can help you explore codebases, implement features, fix bugs, and automate
+workflows directly from your terminal.
 
-哪怕你不做软件工程相关的事情，这个思维模式也非常有用。
+In this workspace, I have access to tools for searching and editing files,
+running shell commands, and utilizing specialized skills (like the tell-me-a-joke
+skill I see in your .gemini directory). How can I help you with your project today?
+```
 
-想想看，生活中有多少场景是这样的：
+看到这个回复，说明你的 AI 编程助手已经成功上线了！**恭喜你，可以开始用 Gemini CLI 了！**
 
-- **同一份资料在多个地方用到** — 你是复制 10 份，还是保存 1 份然后到处"链接"到它？
-- **需要保留历史版本** — 你是每次都完整备份，还是只保存"变化的部分"？
-- **多人协作同一份文档** — 你是每人一份副本各改各的，还是大家都编辑同一份？
+注意看底部的状态栏：它显示了你的项目路径、sandbox 模式、以及当前使用的模型（比如 `` gemini-3-flash-preview ``）。Gemini CLI 已经识别了你项目里的 `` .gemini `` 文件夹和里面的内容。
 
-现代的云存储、版本控制、知识管理工具，底层都在用类似的思想：
+---
 
-- Google Docs 的共享链接（引用同一份文档）
-- Git 的增量存储（只保存变化）
-- Notion 的数据库关联（引用而非重复）
+## 🔑 简单理解：OAuth 是什么？
 
-mise 教给我们的，不只是一个安装工具的方法，更是一种高效管理资源的思维方式。
+你可能好奇：为什么登录这么"绕"？为什么不能直接输入用户名密码？
 
-### "命令式"与"声明式"的区别
+这里涉及到一个叫 **OAuth** 的安全机制。用一个生活化的比喻来解释：
 
-其实这节课还有一个隐藏的思维升级，值得你留意：
+想象你住在一个高档小区（你的 Google 账号）。现在有一个外卖员（Gemini CLI）要给你送餐。
 
-- **命令式（Imperative）：** "跑这个命令来装这个东西。" 六个月后你可能完全忘了自己装过什么。
-- **声明式（Declarative）：** "这个配置文件写了我需要什么。" 任何人（包括未来的你）打开 `mise.toml` 就能一目了然。
+- **传统方式**：你把家门钥匙复印一把给外卖员。危险！万一钥匙丢了呢？
+- **OAuth 方式**：外卖员到小区门口，保安（Google 授权系统）打电话问你"有个叫 Gemini CLI 的要进来送餐，你同意吗？"你说"同意"，保安就给他开门，但不给他钥匙。
 
-Dockerfile、CI/CD pipeline、Infrastructure as Code——这些专业工具全都遵循声明式的思路。现在养成这个习惯，以后会越用越顺。
+OAuth 的好处是：
+
+- Gemini CLI 永远不会知道你的 Google 密码
+- 你可以随时在 Google 账号设置中撤销授权
+- 即使 Gemini CLI 有漏洞，你的 Google 账号也是安全的
+
+你平时用"用 Google 登录"、"用微信登录"各种 App，背后都是这个原理。今天可能是你第一次亲手"走"一遍这个流程，但这个概念会陪伴你整个技术生涯。
+
+---
+
+## 💡 小贴士
+
+**如果你需要重新登录**，可以在 Terminal 中运行：
+
+```
+gemini auth login
+```
+
+这会重新触发登录流程。
+
+**如果你想查看当前的登录状态**，可以运行：
+
+```
+gemini auth status
+```
+
+---
+
+## 👨‍🏫 导师寄语：为什么 Gemini CLI 的登录设计值得学习
+
+你可能觉得，登录不就是登录吗？有什么值得多说的？
+
+让我告诉你为什么这个看似简单的流程背后，藏着很深的产品设计智慧。
+
+### 免费 AI 降低门槛
+
+不像很多 AI 编程工具需要付费订阅，Gemini CLI 的免费额度（Gemini Code Assist for individuals）意味着任何有 Google 账号的人都能用上强大的编程助手。这是 Google 有意为之——降低 AI 辅助开发的入门门槛。
+
+### 命令行工具的力量
+
+很多人第一次看到 Gemini CLI 会问："为什么不做成一个漂亮的 App？"
+
+答案是：**命令行是最通用的界面**。
+
+无论是你的 MacBook、公司的 Linux 服务器、云端的 Codespaces、还是树莓派上的 Ubuntu——只要有 Terminal，Gemini CLI 就能运行。当你未来需要在生产服务器上调试代码、在 Docker 容器中排查问题、在 CI/CD 流水线中自动化任务时，你会感谢 Gemini CLI 选择了命令行。
+
+### Folder Trust 背后的安全思维
+
+"你信任这个文件夹吗？"这个提示看似多此一举，其实在教你一个重要的安全原则：**不要盲目执行来源不明的代码**。这个思维会在你整个技术生涯中受用，无论是 review 别人的 pull request、安装 npm 包、还是打开下载的项目。
+
+### 这可能是你与 Google OAuth 的第一次"亲密接触"
+
+今天你亲手完成了一次完整的 Google OAuth 授权流程。这个经历比看十篇文章都有价值。
+
+因为你不再是"听说过 OAuth"，而是"用过 OAuth"。当你未来开发自己的应用、需要接入"用 Google 登录"时，你会想起今天的经历：啊，原来那个按钮背后，就是这个流程。
+
+**恭喜你成功连接了 Gemini CLI！**
+
+接下来，就是用它来创造价值的时候了。
+
+---
 
 ## ✅ 完成检查清单
 
-- [ ] Fork 了教学 Repository 到自己的账号
-- [ ] 切换到 `02-Install-Gemini-CLI` Branch
-- [ ] 在正确的 Branch 上创建了 Codespace
-- [ ] 确认 Codespace 里的 Branch 是正确的
-- [ ] 运行 `mise` 确认 mise 已安装
-- [ ] 运行 `mise trust` 信任配置文件
-- [ ] 运行 `mise activate` 激活 mise
-- [ ] 运行 `mise install` 安装 Gemini CLI
-- [ ] 运行 `which gemini` 看到路径输出
+- [ ] 成功在 Terminal 中运行 `` gemini `` 命令，看到 GEMINI ASCII 艺术欢迎界面
+- [ ] 处理了 "Connect GitHub Codespaces" 的提示
+- [ ] 选择了信任项目文件夹（Trust folder）
+- [ ] 选择了 "Login with Google" 作为登录方式
+- [ ] 完成了 Google OAuth 授权（打开 URL、同意授权、粘贴授权码）
+- [ ] 看到 "Logged in with Google" 以及你的邮箱和 Plan 信息
+- [ ] 在 Gemini CLI 中输入 `` who are you? `` 并收到完整的自我介绍回复
 
 ## 💡 关键要点总结
 
-1. **推荐用 mise 安装 Gemini CLI** — 比官方 `npm install -g` 全局安装更灵活、更干净
-2. **mise.toml 声明工具需求** — `[tools]` 里写明需要什么工具、什么版本
-3. **三步走：trust → activate → install** — 信任配置、激活监控、安装工具
-4. **mise 智能复用** — 相同版本只存一份，节约磁盘空间
-5. **`which gemini` 验证安装** — 有路径输出就说明成功
+1. **三种登录方式**：Login with Google（免费，推荐）、Gemini API Key、Vertex AI——大多数人选第一个
+2. **Folder Trust**：Gemini CLI 会在加载配置前问你是否信任这个文件夹，这是安全特性，不是麻烦
+3. **OAuth 的本质**：Google 充当可信中间人，Gemini CLI 获得代替你操作的权限，但不需要知道你的密码
+4. **免费额度**：截至 2026 年 3 月，Gemini Code Assist for individuals 对所有 Google 账号免费开放
+5. **命令行的优势**：在任何有 Terminal 的环境都能使用 Gemini CLI
