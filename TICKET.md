@@ -23,13 +23,7 @@ Read the tutorial: [Gemini CLI Basics: Getting AI to Read Your Files with @](htt
 - [ ] **Exercise 3: Reference multiple files** — Use two or more `@` references in a single prompt
 - [ ] **Exercise 4: Summarize the tutorial** — Run `summarize @README.md` and confirm the summary matches what you learned
 
-## Submission & Verification
-
-When you're done, run `/teach-check` to verify your work against the checklist. Say "ship it" when complete to generate RESULT.md, then share the RESULT.md file GitHub link with your instructor.
-
 ## Grading Rubric
-
-> **For instructors and /teach-check assistant** — Students may skip this section.
 
 - **@ syntax understanding:** Student can explain that `@` + relative path tells Gemini CLI to read a file. They understand why relative paths (not absolute) are used in Gemini CLI.
 - **Copy Relative Path skill:** Student used "Copy Relative Path" from the Codespace context menu (not "Copy Path"). They can demonstrate this on any file.
