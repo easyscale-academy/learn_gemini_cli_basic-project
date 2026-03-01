@@ -1,22 +1,28 @@
-# Read: What Is a Coding Agent?
+# Install Gemini CLI with mise
 
 ## Objective
 
-Understand what a coding agent is and how it fundamentally differs from a regular AI chatbot. This is a reading-only lesson — no code to write, no commands to run.
+Install Google's Gemini CLI using mise so that typing `gemini` in your terminal launches the CLI and shows help information. This lesson focuses only on installation — authentication and first use will be covered in the next lesson.
 
-Read the tutorial: [What Is a Coding Agent](https://github.com/easyscale-academy/learn_gemini_cli_basic-project/tree/01-What-Is-Coding-Agent)
+Read the tutorial: [Install Gemini CLI](https://github.com/easyscale-academy/learn_gemini_cli_basic-project/tree/02-Install-Gemini-CLI)
 
-## Reading Checklist
+## Actionable Items
 
-- [ ] **Read the tutorial** - Read README.md (English) or README-CN.md (Chinese) from start to finish
-- [ ] **Understand Agent vs. Chatbot** - Be able to explain in your own words how an agent differs from a regular AI chatbot
-- [ ] **Understand the ReAct loop** - Know what Reason → Act → Observe → Repeat means and why it matters
-- [ ] **Know the five core capabilities** - File exploration, code execution, debugging, Google Search, MCP extensibility
+1. Fork the teaching repository and create a Codespace on the `02-Install-Gemini-CLI` branch
+2. Run `mise trust`, `mise activate`, and `mise install` to install Gemini CLI via the pre-configured `mise.toml`
+3. Run `which gemini` to confirm the installation path, then run `gemini` to verify you see the CLI help output
 
 **Estimated time:** 10-15 minutes
 
+## Checklist
+
+- [ ] **Fork and Codespace** - Forked the repo and created a Codespace on the `02-Install-Gemini-CLI` branch
+- [ ] **mise setup** - Ran `mise trust`, `mise activate`, and `mise install` successfully
+- [ ] **Verify installation path** - Ran `which gemini` and saw a mise-managed path in the output
+- [ ] **Launch Gemini CLI** - Ran `gemini` and saw the CLI interface or help information
+
 ## Grading Rubric
 
-- **Conceptual understanding:** Ask the student to explain the difference between a chatbot and an agent in their own words. They should mention autonomous action, the ReAct loop, and self-correction without prompting.
-- **ReAct loop comprehension:** Student can describe the four steps (Reason, Act, Observe, Repeat) and give an example of how an agent would debug an error.
-- **Tool awareness:** Student knows that Gemini CLI is free, open source. They understand it's more than just a coding tool.
+- **Installation method:** Student installed Gemini CLI through mise (not `npm install -g`). Verify by checking that `which gemini` output contains `mise/installs` in the path.
+- **Tool verification:** Student can run `gemini` and see the CLI help output or interactive interface. The goal is only installation — authentication and actual usage are NOT required for this lesson.
+- **Conceptual understanding:** Student can explain why mise-managed installation is preferred over a global npm install (version management, clean uninstall, smart reuse).
