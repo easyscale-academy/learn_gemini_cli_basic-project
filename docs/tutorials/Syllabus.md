@@ -33,3 +33,7 @@ Now that you can feed context into Gemini CLI, learn to control its output. Use 
 ## 08-Choose-Model
 
 Learn to select the right Gemini model for each task. Understand the trade-offs between Pro (powerful, expensive), Flash (fast, affordable), and Flash-Lite (fastest, cheapest). Use the `/model` command to switch models, check `.gemini/settings.json` to see where preferences are stored, and build the habit of right-sizing your tools — defaulting to Flash for learning.
+
+## 10-Using-Slash-Commands
+
+Learn how Gemini CLI's dual system of Commands (`.gemini/commands/*.toml`) and Skills (`.gemini/skills/*/SKILL.md`) lets you create reusable prompt templates. Practice with a currency converter command — first manually pasting the full prompt, then using `/convert-currency` to see the power of automation. Understand `{{args}}` placeholders and when to use commands vs. skills.
