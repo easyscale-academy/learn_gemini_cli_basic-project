@@ -33,3 +33,7 @@ Now that you can feed context into Gemini CLI, learn to control its output. Use 
 ## 08-Choose-Model
 
 Learn to select the right Gemini model for each task. Understand the trade-offs between Pro (powerful, expensive), Flash (fast, affordable), and Flash-Lite (fastest, cheapest). Use the `/model` command to switch models, check `.gemini/settings.json` to see where preferences are stored, and build the habit of right-sizing your tools — defaulting to Flash for learning.
+
+## 14-Expense-Analyzer
+
+Practice AI-assisted development by building a Python expense analyzer using an unfamiliar tech stack (Polars + SQL). The exercise is intentionally outside your comfort zone — the goal isn't to master Python, but to learn a transferable method: describe tasks clearly, ask for explanations, iterate with tests, and apply divide-and-conquer thinking. Implement four functions (load, preview, filter, aggregate) guided by failing tests and AI collaboration.

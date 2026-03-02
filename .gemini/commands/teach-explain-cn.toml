@@ -1,0 +1,2 @@
+[command]
+prompt = "Use 'teach-explain-cn' agent skill. Student request: {{args}}"

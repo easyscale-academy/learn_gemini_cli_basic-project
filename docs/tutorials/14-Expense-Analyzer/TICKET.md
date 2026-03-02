@@ -35,17 +35,3 @@ The goal is not just to make tests pass—it's to practice **AI-assisted develop
 ## Submission & Verification
 
 Run `/teach-check` to verify. Say "ship it" when complete to generate RESULT.md.
-
-## Grading Rubric
-
-> **For instructors and /teach-check assistant**
-
-**Criterion 1: Implementation Quality**
-- Functions implemented with real logic (not hardcoded)
-- Not direct copy-paste from reference
-
-**Criterion 2: All Tests Pass**
-- `test_main_returns_dict`, `test_main_has_all_categories`, `test_main_correct_max_expenses`
-
-**Criterion 3: Learning & Communication**
-- Student demonstrates understanding of AI collaboration method

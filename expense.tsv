@@ -1,0 +1,120 @@
+transaction_id	date	category	merchant	amount	description
+TXN-2025-001	2025-01-03	Dining	Starbucks	6.75	Morning coffee
+TXN-2025-002	2025-01-05	Groceries	Trader Joe's	45.30	Weekly groceries
+TXN-2025-003	2025-01-08	Transport	Uber	18.50	Airport pickup
+TXN-2025-004	2025-01-12	Shopping	Amazon	89.99	Wireless headphones
+TXN-2025-005	2025-01-15	Entertainment	Netflix	15.99	Monthly subscription
+TXN-2025-006	2025-01-18	Utilities	Verizon	85.00	Phone bill
+TXN-2025-007	2025-01-22	Dining	Chipotle	14.25	Lunch
+TXN-2025-008	2025-01-25	Groceries	Costco	156.80	Monthly bulk shopping
+TXN-2025-009	2025-01-28	Transport	Shell Gas	42.00	Gas refill
+TXN-2025-010	2025-02-02	Dining	Panda Express	11.50	Quick dinner
+TXN-2025-011	2025-02-05	Shopping	Target	67.45	Household items
+TXN-2025-012	2025-02-08	Entertainment	Spotify	10.99	Music subscription
+TXN-2025-013	2025-02-12	Utilities	Comcast	79.99	Internet bill
+TXN-2025-014	2025-02-15	Transport	Lyft	22.30	Downtown trip
+TXN-2025-015	2025-02-18	Groceries	Whole Foods	78.60	Organic groceries
+TXN-2025-016	2025-02-22	Dining	Din Tai Fung	52.00	Birthday dinner
+TXN-2025-017	2025-02-25	Shopping	Best Buy	299.00	Monitor for WFH
+TXN-2025-018	2025-02-28	Entertainment	AMC Theaters	24.50	Movie night
+TXN-2025-019	2025-03-03	Transport	Uber	15.75	Grocery run
+TXN-2025-020	2025-03-06	Dining	Sweetgreen	16.80	Healthy lunch
+TXN-2025-021	2025-03-10	Utilities	PG&E	112.45	Electricity bill
+TXN-2025-022	2025-03-14	Groceries	Trader Joe's	52.15	Weekly groceries
+TXN-2025-023	2025-03-18	Shopping	Uniqlo	145.00	Spring clothes
+TXN-2025-024	2025-03-22	Entertainment	Steam	59.99	Video game
+TXN-2025-025	2025-03-25	Transport	BART	8.50	Commute
+TXN-2025-026	2025-03-28	Dining	Shake Shack	19.45	Burger craving
+TXN-2025-027	2025-04-02	Groceries	Safeway	63.20	Groceries
+TXN-2025-028	2025-04-05	Shopping	REI	189.00	Hiking boots
+TXN-2025-029	2025-04-08	Transport	Uber	28.90	Late night ride
+TXN-2025-030	2025-04-12	Dining	Nobu	185.00	Anniversary dinner
+TXN-2025-031	2025-04-15	Entertainment	Disney+	13.99	Monthly subscription
+TXN-2025-032	2025-04-18	Utilities	T-Mobile	70.00	Phone bill
+TXN-2025-033	2025-04-22	Groceries	Costco	142.50	Bulk shopping
+TXN-2025-034	2025-04-25	Shopping	Apple Store	1299.00	New MacBook
+TXN-2025-035	2025-04-28	Transport	Chevron Gas	48.50	Gas refill
+TXN-2025-036	2025-05-02	Dining	In-N-Out	12.35	Quick lunch
+TXN-2025-037	2025-05-05	Entertainment	Hulu	17.99	Streaming subscription
+TXN-2025-038	2025-05-08	Groceries	Trader Joe's	48.90	Weekly groceries
+TXN-2025-039	2025-05-12	Shopping	Nordstrom	225.00	Interview suit
+TXN-2025-040	2025-05-15	Utilities	Comcast	79.99	Internet bill
+TXN-2025-041	2025-05-18	Transport	Lyft	19.20	Airport drop-off
+TXN-2025-042	2025-05-22	Dining	Olive Garden	45.80	Family dinner
+TXN-2025-043	2025-05-25	Entertainment	Concert tickets	150.00	Summer concert
+TXN-2025-044	2025-05-28	Groceries	Whole Foods	92.30	Premium groceries
+TXN-2025-045	2025-06-01	Transport	Uber	32.50	Long distance ride
+TXN-2025-046	2025-06-04	Dining	Sushi Roku	78.00	Sushi dinner
+TXN-2025-047	2025-06-08	Shopping	Amazon	56.78	Kitchen gadgets
+TXN-2025-048	2025-06-12	Utilities	PG&E	98.60	Summer electricity
+TXN-2025-049	2025-06-15	Entertainment	Six Flags	89.99	Theme park
+TXN-2025-050	2025-06-18	Groceries	Costco	167.40	Summer BBQ supplies
+TXN-2025-051	2025-06-22	Transport	Shell Gas	52.00	Road trip gas
+TXN-2025-052	2025-06-25	Dining	The Cheesecake Factory	65.50	Celebration dinner
+TXN-2025-053	2025-06-28	Shopping	IKEA	342.00	Furniture for new apt
+TXN-2025-054	2025-06-30	Entertainment	HBO Max	15.99	Subscription
+TXN-2025-055	2025-07-01	Dining	Blue Bottle Coffee	8.50	First day of Q3 coffee
+TXN-2025-056	2025-07-03	Groceries	Trader Joe's	55.20	July groceries
+TXN-2025-057	2025-07-05	Transport	Uber	24.80	4th of July party ride
+TXN-2025-058	2025-07-08	Shopping	Amazon	134.50	Summer electronics
+TXN-2025-059	2025-07-10	Entertainment	Movie theater	32.00	Summer blockbuster
+TXN-2025-060	2025-07-12	Utilities	Verizon	85.00	Phone bill
+TXN-2025-061	2025-07-15	Dining	Eataly	95.00	Italian feast
+TXN-2025-062	2025-07-18	Transport	Lyft	45.60	Concert venue ride
+TXN-2025-063	2025-07-20	Groceries	Whole Foods	88.75	Organic summer produce
+TXN-2025-064	2025-07-22	Shopping	Nike	178.00	Running shoes
+TXN-2025-065	2025-07-25	Entertainment	Escape room	35.00	Team building
+TXN-2025-066	2025-07-28	Utilities	Comcast	79.99	Internet bill
+TXN-2025-067	2025-07-30	Dining	Momofuku	142.00	Fancy dinner out
+TXN-2025-068	2025-08-02	Transport	Uber	38.90	Late airport run
+TXN-2025-069	2025-08-05	Groceries	Costco	198.50	Big summer stock-up
+TXN-2025-070	2025-08-08	Shopping	Zara	89.00	Summer sale clothes
+TXN-2025-071	2025-08-10	Entertainment	Comedy club	55.00	Stand-up show
+TXN-2025-072	2025-08-12	Dining	Nobu	165.00	Client dinner
+TXN-2025-073	2025-08-15	Utilities	PG&E	145.80	AC running high
+TXN-2025-074	2025-08-18	Transport	Chevron Gas	58.20	Summer road trip
+TXN-2025-075	2025-08-20	Groceries	Safeway	72.30	Quick grocery run
+TXN-2025-076	2025-08-22	Shopping	Apple Store	449.00	iPad for studying
+TXN-2025-077	2025-08-25	Entertainment	Disneyland	199.00	Day trip
+TXN-2025-078	2025-08-28	Dining	Mastros	285.00	Special celebration
+TXN-2025-079	2025-08-30	Transport	Lyft	52.40	Long distance ride home
+TXN-2025-080	2025-09-02	Groceries	Trader Joe's	61.80	Back to routine
+TXN-2025-081	2025-09-05	Shopping	Amazon	67.99	School supplies
+TXN-2025-082	2025-09-08	Utilities	T-Mobile	70.00	Phone bill
+TXN-2025-083	2025-09-10	Entertainment	Broadway show	175.00	Hamilton tickets
+TXN-2025-084	2025-09-12	Dining	Flour + Water	125.00	Pasta tasting menu
+TXN-2025-085	2025-09-15	Transport	Uber	29.50	Interview commute
+TXN-2025-086	2025-09-18	Groceries	Whole Foods	95.40	Healthy meal prep
+TXN-2025-087	2025-09-20	Shopping	Nordstrom Rack	156.00	Fall wardrobe
+TXN-2025-088	2025-09-22	Entertainment	Bowling	28.00	Weekend fun
+TXN-2025-089	2025-09-25	Dining	Sukiyabashi Jiro	320.00	Once in a lifetime sushi
+TXN-2025-090	2025-09-28	Transport	BART	12.50	Daily commute
+TXN-2025-091	2025-09-30	Utilities	Comcast	79.99	Last day of Q3 internet
+TXN-2025-092	2025-09-30	Groceries	Costco	178.90	End of Q3 stock-up
+TXN-2025-093	2025-10-02	Dining	Starbucks	7.25	Pumpkin spice season
+TXN-2025-094	2025-10-05	Shopping	Halloween store	89.50	Costume shopping
+TXN-2025-095	2025-10-08	Transport	Uber	21.30	Fall outing
+TXN-2025-096	2025-10-12	Entertainment	Haunted house	45.00	Halloween fun
+TXN-2025-097	2025-10-15	Groceries	Trader Joe's	58.90	Fall groceries
+TXN-2025-098	2025-10-18	Utilities	PG&E	88.50	Heating starts
+TXN-2025-099	2025-10-22	Dining	Olive Garden	42.50	Comfort food
+TXN-2025-100	2025-10-25	Shopping	REI	125.00	Fall hiking gear
+TXN-2025-101	2025-11-01	Transport	Lyft	33.80	Airport run
+TXN-2025-102	2025-11-05	Dining	Thanksgiving prep	156.00	Turkey and sides
+TXN-2025-103	2025-11-08	Groceries	Costco	201.30	Holiday stock-up
+TXN-2025-104	2025-11-12	Entertainment	Streaming bundle	29.99	Holiday movies
+TXN-2025-105	2025-11-15	Shopping	Black Friday	456.00	Electronics deals
+TXN-2025-106	2025-11-18	Utilities	Verizon	85.00	Phone bill
+TXN-2025-107	2025-11-22	Transport	Uber	48.90	Thanksgiving travel
+TXN-2025-108	2025-11-28	Dining	Fancy restaurant	195.00	Post-thanksgiving
+TXN-2025-109	2025-12-02	Groceries	Whole Foods	112.50	December groceries
+TXN-2025-110	2025-12-05	Shopping	Gift shopping	378.00	Holiday presents
+TXN-2025-111	2025-12-08	Entertainment	Holiday concert	95.00	Festive outing
+TXN-2025-112	2025-12-12	Transport	Chevron Gas	55.00	Holiday travel
+TXN-2025-113	2025-12-15	Dining	Christmas party	88.00	Office party contribution
+TXN-2025-114	2025-12-18	Utilities	PG&E	135.20	Winter heating
+TXN-2025-115	2025-12-22	Groceries	Safeway	145.60	Christmas dinner prep
+TXN-2025-116	2025-12-25	Shopping	Last minute gifts	123.45	Christmas morning
+TXN-2025-117	2025-12-28	Entertainment	New Year prep	65.00	Party supplies
+TXN-2025-118	2025-12-30	Transport	Uber	42.00	New Year Eve ride
+TXN-2025-119	2025-12-31	Dining	New Year dinner	250.00	Celebration dinner

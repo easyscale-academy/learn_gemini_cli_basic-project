@@ -1,158 +1,347 @@
-# 选择你的 Gemini Model
+# 费用分析器
 
-> 学习如何在 Gemini CLI 中选择合适的 AI model，平衡能力和成本。
+> 通过构建一个 Python 费用分析器来练习 AI 辅助开发 —— 刻意使用你不熟悉的技术栈。
 
-## 为什么要学这个
+## 概述
 
-想象一下：你正在和 Gemini CLI 聊得很顺，问题一个接一个，进度飞快。然后你发现回复变慢了，或者去 Google AI Studio 一看——免费 quota 消耗得比想象中快很多。
+这个练习与之前的课程不同。你不是在学习某个特定的 Gemini CLI 功能，而是在练习使用 Gemini CLI 作为开发伙伴，用你可能不熟悉的工具来构建真实项目。
 
-这是因为不同的 model 消耗资源的速度差别很大。最强大的 model 并不总是最好的选择——尤其是你在学习、试验、或者做一些简单任务的时候。
+你将使用 **Python**、**Polars**（一个快速的 DataFrame 库）和 **SQL 查询**来分析费用数据。如果这些对你来说很陌生——这正是练习的意义所在。目标不是精通 Python 或 Polars，而是练习一种可迁移的技能：**与 AI 协作来应对不熟悉的领域**。
 
-好消息是：Gemini CLI 让你自己选 model。选对了 model，你能得到更快的响应、更低的成本、更顺畅的体验。
+这就是现实世界中 AI 辅助开发的样子。你描述你想要什么，AI 帮你构建，你通过提问来学习。
 
-## 认识 Gemini 的 Model
+## 学习目标
 
-Gemini CLI 给你提供了几个 model。你可以把它们想象成不同级别的同事：
+完成这个练习后，你将练习到：
 
-- **Gemini 2.5 Pro** 是你的资深架构师。它擅长复杂推理、多步分析、以及需要深度理解大型代码库的任务。它有巨大的 1M token context window。能力强大，但成本更高、响应更慢。把它留给真正需要的时候。
+1. **清晰描述任务** —— 将需求拆解为具体、可执行的请求
+2. **请求解释** —— 不只是接受代码，而是理解*为什么*这样做
+3. **测试驱动的迭代** —— 用失败的测试来指导实现，一次一个函数
+4. **分而治之的思维** —— 通过逐个解决小问题来应对复杂任务
 
-- **Gemini 2.5 Flash** 是你最常用的高级工程师。它快速、能干、性价比高——input token 的价格大约是 Pro 的八分之一。Flash 可以轻松应对大部分编码任务、概念解释和学习对话。这是你的默认选择。
+## 前提条件
 
-- **Gemini 2.5 Flash-Lite** 是你的快速响应队友。最快也最便宜的选项，适合简单查询、格式化任务、以及速度比深度更重要的快速提问。
+开始这个练习之前，你需要：
 
-关键洞察：**学习阶段，Flash 通常绰绰有余**。它快速、实惠，而且能力比你想象的强。把 Pro 留给真正难的问题。
+- **命令行基础** —— 能够进行目录导航和运行命令
+- **一个 AI 助手**（Gemini CLI、Cursor 等）—— 已安装并可用
+- **愿意尝试的心态** —— 不需要 Python 经验；AI 会帮助你
+
+> **注意：** 你不需要事先了解 Python、Polars 或 SQL。通过 AI 辅助来学习使用不熟悉的工具，正是我们要练习的技能。
+
+---
+
+## 你将构建什么
+
+一个 Python 函数，能够：
+1. 读取一个 TSV（制表符分隔）费用交易文件
+2. 筛选出仅属于 2025 年第三季度（7月-9月）的交易
+3. 找出每个类别中的最高支出
+4. 将结果作为字典返回
+
+**示例输出：**
+```python
+{
+    'Dining': 320.0,
+    'Entertainment': 199.0,
+    'Groceries': 198.5,
+    'Shopping': 156.0,
+    'Transport': 52.4,
+    'Utilities': 145.8
+}
+```
 
 ---
 
 ## 核心概念
 
-### /model 命令
+在开始之前，这里是你将会遇到的工具的简要概述。不用担心记住这些——你会在实践中学习，随时可以向 Gemini 提问。
 
-Gemini CLI 提供了一个交互式的 `/model` 命令，让你随时切换 model。在 Gemini CLI session 中输入 `/model`，你会看到一个选择菜单。你可以选择：
+### Python 项目结构
 
-- **Auto 模式** — Gemini 根据任务复杂度自动在 Pro 和 Flash 之间切换
-- **Manual 模式** — 你自己指定具体的 model
-
-学习阶段，手动选择 Flash 是能力和效率的最佳平衡。
-
-### 设置保存在哪里
-
-当你切换 model 时，Gemini CLI 会保存你的偏好。有两个位置：
-
-- **项目级别：** 项目目录下的 `.gemini/settings.json`（优先级更高）
-- **用户级别：** 主目录下的 `~/.gemini/settings.json`（全局生效）
-
-一个典型的设置文件长这样：
-
-```json
-{
-  "model": "gemini-2.5-flash"
-}
+```
+expense_analyzer/
+├── __init__.py          # 使这个目录成为 Python 包
+├── impl.py              # 你的实现（你写代码的地方）
+├── impl_example.py      # 参考实现（先别偷看！）
+├── expense.tsv          # 数据文件（119 条交易记录）
+├── tests/
+│   └── test_impl.py     # 验证你代码正确性的测试
+├── pyproject.toml       # 项目配置和依赖
+└── mise.toml            # 任务运行器配置
 ```
 
-你也可以直接编辑这个文件——修改 model 的值然后保存即可。Gemini CLI 启动时会读取这个文件，使用你保存的偏好。
+### uv —— Python 包管理器
 
-### 命令行覆盖
+**uv** 是一个快速的 Python 包管理器（类似于 Python 版的 npm）。我们通过 mise 使用它：
 
-你也可以在启动 Gemini CLI 时指定 model，而不改变保存的设置：
+- `mise run venv-create` —— 创建隔离的 Python 环境
+- `mise run inst` —— 安装 `pyproject.toml` 中列出的依赖
+
+### Polars —— 数据处理库
+
+**Polars** 是一个快速的 Python DataFrame 库。可以把它想象成代码中的超级电子表格：
+
+```python
+import polars as pl
+
+# 将文件读取为 DataFrame
+df = pl.read_csv("data.tsv", separator="\t")
+
+# 访问列、筛选行、聚合数据
+```
+
+### SQL 接口
+
+Polars 允许你用 SQL 查询 DataFrame——一种为数据问题设计的语言：
+
+```python
+# 注册 DataFrame 用于 SQL 查询
+ctx = pl.SQLContext({"expenses": df})
+
+# 用 SQL 提问
+result = ctx.execute("SELECT * FROM expenses WHERE amount > 100").collect()
+```
+
+### pytest —— 测试框架
+
+**pytest** 运行你的测试并告诉你哪些部分工作正常：
 
 ```bash
-gemini --model gemini-2.5-flash
+mise run test
 ```
 
-当你只想在单次 session 中临时使用不同 model 时，这很有用。
+绿色 = 通过。红色 = 失败，并附有有用的错误信息。
+
+### 分而治之
+
+不是一次构建所有东西，而是一次实现一个函数：
+
+1. `load_expense_data()` —— 只负责读取文件
+2. `preview_first_rows()` —— 只负责显示几行
+3. `filter_q3_data()` —— 只负责按日期筛选
+4. `find_max_expense_per_category()` —— 只负责找最大值
+
+每个函数都建立在前一个之上。每个都可以独立测试。
 
 ---
 
-## 动手练习
+## 练习
 
-### 练习 1：切换到 Flash
+### 练习 1：设置开发环境
 
-**目标：** 使用 `/model` 命令切换到 Gemini 2.5 Flash。
+**目标：** 让项目准备就绪。
 
-**操作步骤：**
+**怎么做：**
 
-1. 在终端中打开 Gemini CLI
-2. 输入 `/model` 然后按 Enter
-3. 当选择菜单出现时，选择 Flash
-4. 问 Gemini 一个简单的问题，确认它正常工作
+请 Gemini 帮你设置：
 
-**你会注意到：**
+```
+看看 mise.toml 和 pyproject.toml。帮我设置这个项目的开发环境。
+```
 
-Flash 响应很快，处理学习类问题毫无压力。在这门课程中，你要做的大部分事情，Flash 都是正确的选择。
+**应该发生什么：**
+1. 运行 `mise run venv-create` 创建 Python 虚拟环境
+2. 查看 `pyproject.toml`——注意 Polars 依赖被注释掉了
+3. 取消注释 Polars 依赖行
+4. 运行 `mise run inst` 安装依赖
 
-> **关键洞察：** 能胜任你的任务的最快、最便宜的 model，永远是最佳选择。不要为用不到的能力付费。
+**验证是否成功：**
+```bash
+mise run test
+```
 
----
+你应该会看到测试失败——这是预期的！函数还没实现。但如果测试*能运行*（即使失败），说明你的环境设置正确了。
 
-### 练习 2：验证你的设置
-
-**目标：** 检查你的 model 偏好保存在哪里。
-
-**操作步骤：**
-
-1. 用 `/model` 切换 model 后，在编辑器中打开 `.gemini/settings.json`
-2. 确认 `model` 字段显示的是你的选择
-3. 试试直接编辑这个文件来更改 model，然后重启 Gemini CLI 看变化是否生效
-
-**你会注意到：**
-
-设置文件是普通的 JSON——简单、可读。如果需要，你随时可以手动检查或修改。
-
-> **关键洞察：** 了解工具把配置存在哪里，能让你有更多控制权。当出了问题时，检查配置文件通常是最快的调试方式。
+> **关键收获：** 环境设置是常见的阻碍。AI 助手擅长阅读配置文件并引导你完成设置步骤。不要一个人苦苦挣扎——描述你看到的情况，然后寻求帮助。
 
 ---
 
-## 回顾：我们学到了什么
+### 练习 2：实现 `load_expense_data()`
 
-Model 选择就是让工具匹配任务：
+**目标：** 将 TSV 文件读取为 Polars DataFrame。
 
-- **Flash** — 你的日常主力，用于学习、编码帮助和一般问题。快速且实惠。
-- **Pro** — 留给复杂的架构决策、大代码库的深度分析、以及真正需要更强推理能力的问题。
-- **Flash-Lite** — 速度至上、不需要深度的快速任务。
-- **Auto** — 让 Gemini 自己决定，当你不确定该用哪个 model 时很有用。
+**打开 `expense_analyzer/impl.py`** 找到 `load_expense_data()` 函数。里面有 TODO 注释说明要做什么。
 
-选择合适 model 的习惯不只适用于 AI 工具——它是你使用任何技术时都应该有的资源意识。
+**向 Gemini 求助：**
+
+```
+看看 expense_analyzer/impl.py。帮我实现 load_expense_data() 函数。
+我需要将 expense.tsv（制表符分隔）读取为 Polars DataFrame。
+```
+
+**实现之后，请 Gemini 解释：**
+
+```
+/teach-explain pl.read_csv() 如何处理 TSV 文件？为什么需要 separator="\t"？
+```
+
+> **关键收获：** 不要只是接受代码。问"为什么"和"怎么做"——理解方法比记住具体语法更有价值。
 
 ---
 
-## 导师寄语
+### 练习 3：实现 `preview_first_rows()`
 
-当我刚开始使用 AI 编程工具时，我总是选最强大的 model。既然有更好的，为什么要将就呢？
+**目标：** 使用 SQL 从 DataFrame 中选择前 N 行。
 
-但随着时间推移，我学到了一件重要的事：为任务选择合适的工具，是一项基本的工程技能。
+**向 Gemini 求助：**
 
-用 Pro 来回答一个简单问题，就像开卡车去买菜——能用，但浪费还更慢。我认识的最优秀的工程师都很懂得利用资源——他们理解约束，并在约束中创造性地工作。
+```
+帮我实现 impl.py 中的 preview_first_rows()。
+它应该使用 Polars SQL 来选择前 N 行。看看 TODO 了解细节。
+```
 
-Flash 是真的很能干。不要因为它便宜就小看它。
+**探索核心概念：**
 
-这个 right-sizing 工具的习惯适用于工程的方方面面：为你的场景选择合适的数据库，为你的项目选择合适的框架，为你的代码选择合适的抽象层次。从现在开始培养这个习惯，就从 model 选择这么简单的事情做起。
+```
+/teach-explain Polars 中的 SQL 上下文是什么？为什么要在查询之前注册 DataFrame？
+```
+
+> **关键收获：** SQL 是一门强大的数据查询语言。即使你从未用过它，语法读起来几乎像英语：`SELECT * FROM expenses LIMIT 5`。
+
+---
+
+### 练习 4：实现 `filter_q3_data()`
+
+**目标：** 筛选出仅属于 2025 年第三季度的交易（7月1日 - 9月30日）。
+
+**向 Gemini 求助：**
+
+```
+帮我实现 impl.py 中的 filter_q3_data()。
+我需要使用 SQL WHERE 子句对日期列进行筛选，只保留 2025 年第三季度（7-9月）的数据。
+```
+
+**测试你的进度：**
+```bash
+mise run test
+```
+
+你应该开始看到一些测试通过了！
+
+> **关键收获：** 日期筛选是现实世界中的常见任务。SQL 让它变得易读：`WHERE date >= '2025-07-01' AND date <= '2025-09-30'`。
+
+---
+
+### 练习 5：实现 `find_max_expense_per_category()`
+
+**目标：** 使用 SQL GROUP BY 找出每个类别中的最高支出。
+
+**向 Gemini 求助：**
+
+```
+帮我实现 impl.py 中的 find_max_expense_per_category()。
+我需要按类别 GROUP BY 并找出 2025 年第三季度数据中每个类别的 MAX(amount)，然后返回字典。
+```
+
+**探索 SQL 概念：**
+
+```
+/teach-explain SQL 中的 GROUP BY 做什么？MAX() 如何与它配合使用？
+```
+
+> **关键收获：** GROUP BY + 聚合函数（MAX、SUM、AVG）是数据分析的基础。理解这个模式可以解答大量现实世界的数据问题。
+
+---
+
+### 练习 6：运行所有测试
+
+**目标：** 验证一切正常工作。
+
+```bash
+mise run test
+```
+
+**预期结果：** 3 个测试全部通过。
+
+如果测试失败，用 Gemini 调试：
+
+```
+/teach-debug 这是我的测试输出：[粘贴错误信息]。帮我找出问题所在。
+```
+
+**当所有测试通过后**，运行：
+```
+/teach-check
+```
+
+---
+
+## 反思
+
+完成练习后，思考以下问题：
+
+1. **你是如何向 Gemini 描述任务的？** 你的提示词随着练习推进是否变得更具体了？
+2. **通过问"为什么"你学到了什么？** 哪些解释让你感到意外？
+3. **失败的测试如何帮助了你？** 错误信息是否引导了你的下一步？
+4. **你能把这个方法应用到其他不熟悉的技术栈吗？**（比如 Rust、Go、一个新框架）
+
+你练习的这个方法——描述、实现、测试、追问——适用于任何技术。这才是真正的技能。
+
+---
+
+## 导师的话
+
+**为什么这个练习很重要：**
+
+我见过经验丰富的开发者在遇到不熟悉的技术栈时僵住。"我不会 Python"变成了一堵无法逾越的墙。
+
+但事实是：**你不再需要事先了解所有东西了**。AI 助手改变了这个等式。真正重要的技能是知道如何*协作*——如何描述你想要什么，如何提出正确的问题，如何验证答案是否正确。
+
+这个练习刻意将你推出舒适区。Python、Polars 和 SQL 只是载体。你真正在练习的是：
+
+- **将问题拆解为小块** —— 不是"构建一个费用分析器"，而是"读取这个文件、筛选这些行、按这个列分组"
+- **清晰沟通** —— 模糊的提示得到模糊的回答。具体的提示得到可用的代码。
+- **通过测试来学习** —— 测试在你完全理解代码之前就能告诉你是否走在正确的路上。
+- **逐步建立理解** —— 你不需要一次理解所有东西。每个函数都教会你更多一点。
+
+这些技能可以迁移到任何技术、任何项目、任何团队。这就是这个练习存在的意义。
 
 ---
 
 ## 快速参考
 
-**切换 model：**
-```
-/model
-```
-
-**启动时指定 model：**
-```
-gemini --model gemini-2.5-flash
+**环境设置：**
+```bash
+mise run venv-create    # 创建虚拟环境
+mise run inst           # 安装依赖
 ```
 
-**Model 能力：** Pro > Flash > Flash-Lite
+**运行测试：**
+```bash
+mise run test           # 运行所有测试
+```
 
-**成本：** Pro > Flash > Flash-Lite
+**教学命令：**
+```
+/teach-start            # 开始引导式学习
+/teach-code             # 获取代码帮助 + 学习笔记
+/teach-explain          # 理解概念或代码
+/teach-debug            # 带引导地调试错误
+/teach-check            # 验证你的作业
+/teach-brainstorm       # 理清想法
+```
 
-**速度：** Flash-Lite > Flash > Pro
+**中文教学命令：**
+```
+/teach-start-cn         # 开始引导式学习（中文）
+/teach-code-cn          # 获取代码帮助 + 学习笔记（中文）
+/teach-explain-cn       # 理解概念或代码（中文）
+/teach-debug-cn         # 带引导地调试错误（中文）
+/teach-check-cn         # 验证你的作业（中文）
+/teach-brainstorm-cn    # 理清想法（中文）
+```
 
 **关键文件：**
-- `.gemini/settings.json` — 项目级别的 model 偏好
-- `~/.gemini/settings.json` — 用户级别的 model 偏好
+- `expense_analyzer/impl.py` —— 你的实现
+- `expense_analyzer/impl_example.py` —— 参考实现（尽量不要偷看！）
+- `expense.tsv` —— 数据
+- `tests/test_impl.py` —— 测试
 
-## 延伸阅读
+---
 
-- [Gemini CLI GitHub Repository](https://github.com/google-gemini/gemini-cli)
-- [Gemini Models Overview](https://ai.google.dev/gemini-api/docs/models)
+## 参考实现
+
+完整的可运行实现在 `expense_analyzer/impl_example.py` 中提供。
+
+**我们的建议：** 先尝试在 AI 辅助下实现每个函数。只有在真正卡住且 AI 解释无法帮助时才查看参考实现。学习发生在探索和对话中，而不是在复制答案中。

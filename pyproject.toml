@@ -1,0 +1,19 @@
+[project]
+name = "expense_analyzer"
+version = "0.1.1"
+requires-python = ">=3.12,<4.0"
+dependencies = [
+# TODO: Uncomment the line below and run `uv sync` to install Polars
+#    "polars>=1.36.1,<2.0.0",
+    "pytest>=8.4.2,<9.0.0",
+]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["expense_analyzer*"]
+exclude = [
+]
+
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"

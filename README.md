@@ -1,118 +1,282 @@
-# Choosing Your Gemini Model
+# Expense Analyzer
 
-> Learn how to select the right AI model in Gemini CLI to balance capability and cost.
+> Practice AI-assisted development by building a Python expense analyzer — intentionally using an unfamiliar tech stack.
 
-## Why This Matters
+## Overview
 
-Imagine this: you're in the middle of a productive learning session with Gemini CLI. You're asking great questions, making real progress. Then you notice responses getting slower, or you check your Google AI Studio dashboard and realize you've burned through a surprising amount of your free quota.
+This exercise is different from previous lessons. Instead of learning a specific Gemini CLI feature, you'll practice using Gemini CLI as a development partner to build something real with tools you may not know yet.
 
-This happens because different models consume resources at very different rates. The most powerful model isn't always the right choice — especially when you're learning, experimenting, or doing straightforward tasks.
+You'll work with **Python**, **Polars** (a fast DataFrame library), and **SQL queries** to analyze expense data. If these are unfamiliar — that's the point. The goal isn't to master Python or Polars. It's to practice a transferable skill: **collaborating with AI to work through unfamiliar territory**.
 
-The good news? Gemini CLI lets you choose your model. By picking the right one for each task, you get faster responses, lower costs, and a smoother workflow.
+This is what real-world AI-assisted development looks like. You describe what you want, the AI helps you build it, and you learn by asking questions along the way.
 
-## Understanding the Gemini Models
+## Learning Objectives
 
-Gemini CLI gives you access to several models. Think of them as colleagues with different strengths:
+By the end of this exercise, you'll have practiced:
 
-- **Gemini 2.5 Pro** is your senior architect. It handles complex reasoning, multi-step analysis, and tasks that require deep understanding across large codebases. It has a massive 1M token context window. Powerful, but it costs more and responds slower. Save it for when you truly need it.
+1. **Describing tasks clearly** — Breaking down what you want into specific, actionable requests
+2. **Asking for explanations** — Not just accepting code, but understanding *why* it works
+3. **Test-driven iteration** — Using failing tests to guide your implementation, one function at a time
+4. **Divide-and-conquer thinking** — Tackling a complex problem by solving small pieces individually
 
-- **Gemini 2.5 Flash** is your go-to senior engineer. It's fast, capable, and cost-effective — roughly 8x cheaper than Pro for input tokens. Flash handles most coding tasks, explanations, and learning conversations with ease. This is your default choice.
+## Prerequisites
 
-- **Gemini 2.5 Flash-Lite** is your quick-response teammate. The fastest and cheapest option, great for simple lookups, formatting tasks, and quick questions where speed matters more than depth.
+Before starting this exercise, you should have:
 
-Here's the key insight: **for learning, Flash is usually more than enough**. It's fast, affordable, and surprisingly capable. Save Pro for genuinely hard problems.
+- **Command line basics** — You can navigate directories and run commands
+- **An AI assistant** (Gemini CLI, Cursor, etc.) — Installed and working
+- **Willingness to experiment** — You don't need Python experience; the AI will help
+
+> **Note:** You do NOT need to know Python, Polars, or SQL beforehand. Learning to work with unfamiliar tools through AI assistance is exactly the skill we're practicing.
+
+---
+
+## What You'll Build
+
+A Python function that:
+1. Reads a TSV (tab-separated) file of expense transactions
+2. Filters to Q3 2025 (July–September) transactions only
+3. Finds the highest spending in each category
+4. Returns the results as a dictionary
+
+**Example output:**
+```python
+{
+    'Dining': 320.0,
+    'Entertainment': 199.0,
+    'Groceries': 198.5,
+    'Shopping': 156.0,
+    'Transport': 52.4,
+    'Utilities': 145.8
+}
+```
 
 ---
 
 ## Key Concepts
 
-### The /model Command
+Before diving in, here's a brief overview of the tools you'll encounter. Don't worry about memorizing these — you'll learn them hands-on, and you can always ask Gemini to explain.
 
-Gemini CLI provides an interactive `/model` command to switch models on the fly. Type `/model` in your Gemini CLI session, and you'll see a selection menu. You can choose between:
+### Python Project Structure
 
-- **Auto mode** — Gemini intelligently picks Pro or Flash based on task complexity
-- **Manual mode** — You pick a specific model yourself
-
-For learning, manually selecting Flash gives you the best balance of capability and efficiency.
-
-### Where Settings Are Stored
-
-When you switch models, Gemini CLI saves your preference. There are two locations:
-
-- **Project-level:** `.gemini/settings.json` in your project directory (overrides user-level)
-- **User-level:** `~/.gemini/settings.json` in your home directory (applies globally)
-
-A typical settings file looks like:
-
-```json
-{
-  "model": "gemini-2.5-flash"
-}
+```
+expense_analyzer/
+├── __init__.py          # Makes this a Python package
+├── impl.py              # Your implementation (where you write code)
+├── impl_example.py      # Reference implementation (don't peek yet!)
+├── expense.tsv          # The data file (119 transactions)
+├── tests/
+│   └── test_impl.py     # Tests that verify your code works
+├── pyproject.toml       # Project configuration and dependencies
+└── mise.toml            # Task runner configuration
 ```
 
-You can also edit this file directly — just change the model value and save. When Gemini CLI starts, it reads this file and uses your saved preference.
+### uv — Python Package Manager
 
-### Command-Line Override
+**uv** is a fast Python package manager (think npm for Python). We use it through mise:
 
-You can also specify a model when launching Gemini CLI without changing your saved settings:
+- `mise run venv-create` — Creates an isolated Python environment
+- `mise run inst` — Installs dependencies listed in `pyproject.toml`
+
+### Polars — Data Processing Library
+
+**Polars** is a fast DataFrame library for Python. Think of it as a super-powered spreadsheet in code:
+
+```python
+import polars as pl
+
+# Read a file into a DataFrame
+df = pl.read_csv("data.tsv", separator="\t")
+
+# Access columns, filter rows, aggregate data
+```
+
+### SQL Interface
+
+Polars lets you query DataFrames using SQL — a language designed for data questions:
+
+```python
+# Register a DataFrame for SQL queries
+ctx = pl.SQLContext({"expenses": df})
+
+# Ask questions in SQL
+result = ctx.execute("SELECT * FROM expenses WHERE amount > 100").collect()
+```
+
+### pytest — Testing Framework
+
+**pytest** runs your tests and tells you what's working:
 
 ```bash
-gemini --model gemini-2.5-flash
+mise run test
 ```
 
-This is useful when you want to temporarily use a different model for a single session.
+Green = passing. Red = failing with helpful error messages.
+
+### Divide & Conquer
+
+Instead of building everything at once, you'll implement one function at a time:
+
+1. `load_expense_data()` — Just read the file
+2. `preview_first_rows()` — Just show some rows
+3. `filter_q3_data()` — Just filter by date
+4. `find_max_expense_per_category()` — Just find the maximums
+
+Each builds on the previous one. Each can be tested independently.
 
 ---
 
 ## Exercises
 
-### Exercise 1: Switch to Flash
+### Exercise 1: Set Up Your Environment
 
-**Goal:** Use the `/model` command to switch to Gemini 2.5 Flash.
-
-**What to do:**
-
-1. Open Gemini CLI in your terminal
-2. Type `/model` and press Enter
-3. When the selection menu appears, choose Flash
-4. Ask Gemini a simple question to confirm it's working
-
-**What you'll notice:**
-
-Flash responds quickly and handles learning questions well. For most of what you'll do in this course, Flash is the right choice.
-
-> **Key insight:** The fastest, cheapest model that can handle your task is always the best choice. Don't pay for power you don't need.
-
----
-
-### Exercise 2: Verify Your Settings
-
-**Goal:** Check where your model preference is stored.
+**Goal:** Get the project ready to run.
 
 **What to do:**
 
-1. After switching models with `/model`, open `.gemini/settings.json` in your editor
-2. Confirm the `model` field shows your selection
-3. Try editing the file directly to change the model, then restart Gemini CLI to see the change take effect
+Ask Gemini to help you set up:
 
-**What you'll notice:**
+```
+Look at mise.toml and pyproject.toml. Help me set up the development environment for this project.
+```
 
-The settings file is plain JSON — simple and human-readable. You can always check or change it manually if needed.
+**What should happen:**
+1. Run `mise run venv-create` to create a Python virtual environment
+2. Look at `pyproject.toml` — notice the Polars dependency is commented out
+3. Uncomment the Polars dependency line
+4. Run `mise run inst` to install dependencies
 
-> **Key insight:** Understanding where tools store their configuration gives you more control. When something seems wrong, checking the config file is often the fastest way to debug.
+**Verify it worked:**
+```bash
+mise run test
+```
+
+You should see test failures — that's expected! The functions aren't implemented yet. But if the tests *run* (even if they fail), your environment is set up correctly.
+
+> **Key insight:** Setting up environments is a common stumbling block. AI assistants are great at reading config files and walking you through setup steps. Don't struggle alone — describe what you see and ask for help.
 
 ---
 
-## Reflection: What Did We Learn?
+### Exercise 2: Implement `load_expense_data()`
 
-Model selection is about matching the tool to the task:
+**Goal:** Read the TSV file into a Polars DataFrame.
 
-- **Flash** — Your daily driver for learning, coding help, and general questions. Fast and affordable.
-- **Pro** — Reserve for complex architectural decisions, deep analysis across large codebases, and problems that genuinely require more reasoning power.
-- **Flash-Lite** — Quick tasks where speed is everything and depth doesn't matter.
-- **Auto** — Let Gemini decide, useful when you're not sure which model fits.
+**Open `expense_analyzer/impl.py`** and find the `load_expense_data()` function. It has a TODO comment explaining what to do.
 
-The habit of choosing the right model extends beyond AI tools — it's about being resourceful with any technology you use.
+**Ask Gemini for help:**
+
+```
+Look at expense_analyzer/impl.py. Help me implement the load_expense_data() function.
+I need to read expense.tsv (tab-separated) into a Polars DataFrame.
+```
+
+**After implementing, ask Gemini to explain:**
+
+```
+/teach-explain How does pl.read_csv() work with TSV files? Why do we need separator="\t"?
+```
+
+> **Key insight:** Don't just accept the code. Ask "why" and "how" — understanding the approach is more valuable than the specific syntax.
+
+---
+
+### Exercise 3: Implement `preview_first_rows()`
+
+**Goal:** Use SQL to select the first N rows from the DataFrame.
+
+**Ask Gemini:**
+
+```
+Help me implement preview_first_rows() in impl.py.
+It should use Polars SQL to select the first N rows. Look at the TODO for details.
+```
+
+**Key concept to explore:**
+
+```
+/teach-explain What is a SQL context in Polars? Why register a DataFrame before querying?
+```
+
+> **Key insight:** SQL is a powerful language for data questions. Even if you've never used it, the syntax reads almost like English: `SELECT * FROM expenses LIMIT 5`.
+
+---
+
+### Exercise 4: Implement `filter_q3_data()`
+
+**Goal:** Filter transactions to Q3 2025 only (July 1 – September 30).
+
+**Ask Gemini:**
+
+```
+Help me implement filter_q3_data() in impl.py.
+I need to filter to Q3 2025 (July-September) using SQL WHERE clause on the date column.
+```
+
+**Test your progress:**
+```bash
+mise run test
+```
+
+You should start seeing some tests pass!
+
+> **Key insight:** Date filtering is a common real-world task. SQL makes it readable: `WHERE date >= '2025-07-01' AND date <= '2025-09-30'`.
+
+---
+
+### Exercise 5: Implement `find_max_expense_per_category()`
+
+**Goal:** Find the highest spending in each category using SQL GROUP BY.
+
+**Ask Gemini:**
+
+```
+Help me implement find_max_expense_per_category() in impl.py.
+I need to GROUP BY category and find MAX(amount) for Q3 2025 data, then return it as a dictionary.
+```
+
+**Explore the SQL concepts:**
+
+```
+/teach-explain What does GROUP BY do in SQL? How does MAX() work with it?
+```
+
+> **Key insight:** GROUP BY + aggregate functions (MAX, SUM, AVG) are the foundation of data analysis. Understanding this pattern unlocks a huge range of real-world data questions.
+
+---
+
+### Exercise 6: Run All Tests
+
+**Goal:** Verify everything works together.
+
+```bash
+mise run test
+```
+
+**Expected result:** 3 tests passing.
+
+If tests fail, use Gemini to debug:
+
+```
+/teach-debug Here's my test output: [paste the error]. Help me figure out what's wrong.
+```
+
+**When all tests pass**, run:
+```
+/teach-check
+```
+
+---
+
+## Reflection
+
+After completing the exercises, consider these questions:
+
+1. **How did you describe tasks to Gemini?** Did your prompts get more specific as you went?
+2. **What did you learn by asking "why"?** Which explanations surprised you?
+3. **How did failing tests help?** Did the error messages guide your next steps?
+4. **Could you apply this method to another unfamiliar stack?** (e.g., Rust, Go, a new framework)
+
+The method you practiced — describe, implement, test, ask why — works with any technology. That's the real skill here.
 
 ---
 
@@ -120,47 +284,54 @@ The habit of choosing the right model extends beyond AI tools — it's about bei
 
 **Why this exercise matters:**
 
-When I started using AI coding tools, I always reached for the most powerful model. Why settle for less, right?
+I've seen experienced developers freeze when they encounter an unfamiliar stack. "I don't know Python" becomes a wall they can't get past.
 
-But over time, I learned something important: choosing the right tool for the job is a fundamental engineering skill.
+But here's the thing: **you don't need to know everything upfront anymore**. AI assistants change the equation. The skill that matters is knowing how to *collaborate* — how to describe what you want, how to ask the right questions, how to verify the answer is correct.
 
-Using Pro to answer a simple question is like driving a truck to buy groceries. It works, but it's wasteful and slower. The best engineers I know are resourceful — they understand constraints and work within them creatively.
+This exercise is intentionally outside your comfort zone. The Python, Polars, and SQL are just the vehicle. What you're really practicing is:
 
-**Key insights:**
+- **Breaking problems into pieces** — Not "build an expense analyzer" but "read this file, filter these rows, group by this column"
+- **Communicating clearly** — Vague prompts get vague answers. Specific prompts get working code.
+- **Learning through testing** — Tests tell you if you're on track before you fully understand the code.
+- **Building understanding incrementally** — You don't need to understand everything at once. Each function teaches you a bit more.
 
-- Model selection is a daily decision, not a one-time setup. Get comfortable switching based on what you're doing.
-- Flash is genuinely capable. Don't underestimate it just because it's cheaper.
-- This habit of right-sizing your tools applies everywhere in engineering: choosing the right database, the right framework, the right level of abstraction.
-
-**Next steps:**
-
-As you continue through this course, default to Flash. Switch to Pro only when you hit a problem that Flash can't handle well — you'll develop an intuition for this over time.
+These skills transfer to any technology, any project, any team. That's why this exercise exists.
 
 ---
 
 ## Quick Reference
 
-**Switch models:**
-```
-/model
-```
-
-**Launch with a specific model:**
-```
-gemini --model gemini-2.5-flash
+**Environment setup:**
+```bash
+mise run venv-create    # Create virtual environment
+mise run inst           # Install dependencies
 ```
 
-**Model capability:** Pro > Flash > Flash-Lite
+**Run tests:**
+```bash
+mise run test           # Run all tests
+```
 
-**Cost:** Pro > Flash > Flash-Lite
-
-**Speed:** Flash-Lite > Flash > Pro
+**Teaching commands:**
+```
+/teach-start            # Start a guided learning session
+/teach-code             # Get code help + learning notes
+/teach-explain          # Understand a concept or code
+/teach-debug            # Debug an error with guidance
+/teach-check            # Verify your work
+/teach-brainstorm       # Clarify an idea
+```
 
 **Key files:**
-- `.gemini/settings.json` — Project-level model preference
-- `~/.gemini/settings.json` — User-level model preference
+- `expense_analyzer/impl.py` — Your implementation
+- `expense_analyzer/impl_example.py` — Reference (try not to peek!)
+- `expense.tsv` — The data
+- `tests/test_impl.py` — Tests
 
-## Further Reading
+---
 
-- [Gemini CLI GitHub Repository](https://github.com/google-gemini/gemini-cli)
-- [Gemini Models Overview](https://ai.google.dev/gemini-api/docs/models)
+## Reference Implementation
+
+A complete working implementation is provided in `expense_analyzer/impl_example.py`.
+
+**Our recommendation:** Try to implement each function with AI assistance first. Only look at the reference if you're truly stuck and the AI explanations aren't helping. The learning happens in the struggle and the conversation, not in copying the answer.
