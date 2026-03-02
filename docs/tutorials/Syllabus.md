@@ -33,3 +33,7 @@ Now that you can feed context into Gemini CLI, learn to control its output. Use 
 ## 08-Choose-Model
 
 Learn to select the right Gemini model for each task. Understand the trade-offs between Pro (powerful, expensive), Flash (fast, affordable), and Flash-Lite (fastest, cheapest). Use the `/model` command to switch models, check `.gemini/settings.json` to see where preferences are stored, and build the habit of right-sizing your tools — defaulting to Flash for learning.
+
+## 12-Understanding-Context
+
+Understand how context works in AI assistants: every message, response, and file reference consumes tokens from the context window. Even with Gemini's generous 1M-token window, long contexts can bury important information. Learn the documentation strategy — extracting key points from conversations into reusable documents — so future sessions start clean. Practice by having a conversation, then summarizing it into a markdown file.
