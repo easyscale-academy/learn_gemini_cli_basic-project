@@ -1,5 +1,5 @@
 [env]
-# See claude code environment variables documents at https://code.claude.com/docs/en/settings
+# See Gemini CLI documentation at https://github.com/google-gemini/gemini-cli
 
 [tools]
 gemini = "latest"
