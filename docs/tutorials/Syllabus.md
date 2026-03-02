@@ -33,3 +33,7 @@ Now that you can feed context into Gemini CLI, learn to control its output. Use 
 ## 08-Choose-Model
 
 Learn to select the right Gemini model for each task. Understand the trade-offs between Pro (powerful, expensive), Flash (fast, affordable), and Flash-Lite (fastest, cheapest). Use the `/model` command to switch models, check `.gemini/settings.json` to see where preferences are stored, and build the habit of right-sizing your tools — defaulting to Flash for learning.
+
+## 11-Managing-Sessions
+
+Learn how Gemini CLI sessions work: each conversation is independent by default, but you can resume previous sessions. Use `gemini --resume` (or `gemini -r`) to continue your last session, and `/resume` inside the CLI to browse and select from your full session history. Practice session isolation, resumption, and browsing through three hands-on exercises.
