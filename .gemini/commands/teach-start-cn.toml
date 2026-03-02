@@ -1,0 +1,2 @@
+[command]
+prompt = "Use 'teach-start-cn' agent skill to begin an interactive teaching session in Chinese. Student input: {{args}}"

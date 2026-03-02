@@ -1,0 +1,2 @@
+[command]
+prompt = "Use 'teach-check' agent skill to verify work against the checklist. Student input: {{args}}"

@@ -1,0 +1,2 @@
+[command]
+prompt = "Use 'teach-start' agent skill to begin an interactive teaching session. Student input: {{args}}"

@@ -1,0 +1,2 @@
+[command]
+prompt = "Use 'teach-brainstorm' agent skill. Student request: {{args}}"

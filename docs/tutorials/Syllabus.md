@@ -33,3 +33,7 @@ Now that you can feed context into Gemini CLI, learn to control its output. Use 
 ## 08-Choose-Model
 
 Learn to select the right Gemini model for each task. Understand the trade-offs between Pro (powerful, expensive), Flash (fast, affordable), and Flash-Lite (fastest, cheapest). Use the `/model` command to switch models, check `.gemini/settings.json` to see where preferences are stored, and build the habit of right-sizing your tools — defaulting to Flash for learning.
+
+## 13-Currency-Converter-App
+
+Your first "vibe coding" experience: build a real currency converter app without writing code yourself. Through three progressive exercises — vague request, clear specification, and AI-guided interview — discover why communication clarity matters more than coding syntax. Learn the interview technique to clarify fuzzy ideas through conversation, and experience how better input always produces better output.

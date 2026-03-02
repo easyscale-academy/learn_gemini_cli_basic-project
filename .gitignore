@@ -1,9 +1,10 @@
 # User Settings
 .gemini/gemini-messages.md
 .idea
-tmp
+tmp/
 .claude/
 CLAUDE.md
+app.py
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
